@@ -1,0 +1,4 @@
+username,password,firstName,lastName,role
+adminUser,securePassword123,Admin,User,admin
+buyerUser,securePassword123,Buyer,User,buyer
+sellerUser,securePassword123,Seller,User,seller

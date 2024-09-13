@@ -1,0 +1,36 @@
+import { Module, Logger } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        host: config.get('DB_HOST'),
+        port: config.get<number>('DB_PORT'),
+        username: config.get('DB_USERNAME'),
+        password: config.get('DB_PASSWORD'),
+        database: config.get('DB_NAME'),
+        autoLoadEntities: true,
+        synchronize: true,
+        entities: ['dist/src/entities/*.js'],
+        logging: config.get('DB_LOG'),
+        retryAttempts: 10, 
+        retryDelay: 3000, 
+      }),
+    }),
+  ],
+})
+export class DatabaseModule {
+  private readonly logger = new Logger(DatabaseModule.name);
+
+  constructor(private configService: ConfigService) {
+    this.logger.fatal(
+      `Connecting to ${this.configService.get('DB_NAME')} at ${this.configService.get('DB_HOST')}:${this.configService.get('DB_PORT')}`,
+    );
+  }
+}

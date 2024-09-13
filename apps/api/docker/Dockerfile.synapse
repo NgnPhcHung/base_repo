@@ -1,0 +1,11 @@
+FROM matrixdotorg/synapse:v1.96.0
+
+ENV SYNAPSE_SERVER_NAME=localhost
+ENV SYNAPSE_REPORT_STATS=no
+ENV SYNAPSE_HOME=/data
+WORKDIR $SYNAPSE_HOME
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+EXPOSE 8808 8848
+CMD ["python", "-m", "synapse.app.homeserver", "--config-path", "homeserver.yaml"]

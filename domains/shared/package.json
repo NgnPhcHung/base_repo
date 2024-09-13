@@ -1,0 +1,29 @@
+{
+  "name": "@domains/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@automapper/classes": "^8.8.1",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/swagger": "^7.4.0",
+    "@nestjs/typeorm": "^10.0.2",
+    "@packages/shared": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^18.13.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^10.0.0",
+    "typeorm": "^0.3.20",
+    "typescript": "^5.5.3",
+    "uuid": "^10.0.0"
+  }
+}
