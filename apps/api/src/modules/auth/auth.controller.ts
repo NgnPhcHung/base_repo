@@ -8,7 +8,6 @@ import {
   Inject,
   Post,
   Request,
-  Res,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
@@ -16,9 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User, UserCreationBody, UserLoginBody } from '@packages/models';
 import * as bcrypt from 'bcrypt';
-import { Response } from 'express';
 import { UserEntity } from 'src/entities';
-import { CookieJwtGuard } from 'src/guards/cookie.jwt.guard';
 import { extractTokenFromHeader } from 'src/utils';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
@@ -86,9 +83,6 @@ export class AuthController {
   @Post('/session/refresh')
   @Authorization()
   async refreshToken(@CurrentUser() user: User) {
-    console.log('refreshToken endpoint called');
-    // console.log(user)
-    const refreshToken = await this.authService.getRefreshToken(user.id);
     const { access_token } = await this.authService.refreshToken(user);
 
     return { access_token };

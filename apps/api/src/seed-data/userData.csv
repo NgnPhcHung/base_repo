@@ -1,4 +1,6 @@
-username,password,firstName,lastName,role
-adminUser,securePassword123,Admin,User,admin
-buyerUser,securePassword123,Buyer,User,buyer
-sellerUser,securePassword123,Seller,User,seller
+username,password,firstName,lastName,role,settings,sentFriendRequests,receivedFriendRequests,friendshipInitiated,friendshipsReceived
+adminUser,securePassword123,Admin,User,admin,,,,,
+userSender_1,securePassword123,Sender 1,User,user,,,,,
+userSender_2,securePassword123,Sender 2,User,user,,,,,
+userReceiver_1,securePassword123,Receiver 1,User,user,,,,,
+userReceiver_2,securePassword123,Receiver 2,User,user,,,,,

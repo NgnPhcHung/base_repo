@@ -42,6 +42,8 @@ export abstract class ThingEntity extends BaseEntity {
   @Column({ default: false })
   isArchived?: boolean = false;
 
+  @ApiProperty()
+  @AutoMap()
   @CreateDateColumn()
   dateCreate?: Date;
 

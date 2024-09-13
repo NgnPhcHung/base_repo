@@ -1,3 +1,4 @@
+export * from "./FriendRequestStatus";
 export * from "./InventoryStatus";
 export * from "./InventoryStatusType";
 export * from "./OrderStatus";

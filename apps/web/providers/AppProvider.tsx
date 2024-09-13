@@ -48,7 +48,7 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
       );
 
       const { access_token } = await response.json();
-      if (access_token && access_token != undefined) {
+      if (!!access_token ) {
         return access_token;
       } else {
         console.error("Failed to refresh token");
@@ -66,11 +66,12 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
       if (!token) return;
 
       const jwtPayload = JSON.parse(atob(token.split(".")[1]));
-      const expiresAt = jwtPayload.exp * 1000; // Convert to milliseconds
+      const expiresAt = jwtPayload.exp * 1000;
       const timeLeft = expiresAt - Date.now();
 
       if (timeLeft < 60 * 1000) {
         const accessToken = await refreshToken();
+
         sessionStorage.setItem("access_token", accessToken);
         setAuthToken(accessToken);
         clearInterval(refreshInterval);

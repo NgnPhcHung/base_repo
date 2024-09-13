@@ -7,7 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import * as entities from './entities';
-import { AuthModule, InventoryModule, UserModule } from './modules';
+import { AuthModule, UserModule } from './modules';
 import { RedisAppModule } from './modules/redis';
 import { DefaultMapper } from './utils';
 
@@ -16,7 +16,6 @@ import { DefaultMapper } from './utils';
     AuthModule,
     DatabaseModule,
     UserModule,
-    InventoryModule,
     RedisAppModule,
     ConfigModule.forRoot({
       isGlobal: true,
