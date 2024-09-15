@@ -1,14 +1,13 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { Authorization, Read, Roles } from '@decorators';
+import { Read, Roles } from '@decorators';
 import { UserEntity } from '@entities';
 import { Controller, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User, UserRole } from '@packages/models';
 import { CurrentUser } from 'src/decorators/CurrentUser';
-import { RoleGuard } from 'src/guards/role.guard';
-import { UserService } from './user.service';
 import { SettingService } from './setting.service';
+import { UserService } from './user.service';
 
 @ApiTags('Settings')
 @Controller('settings')

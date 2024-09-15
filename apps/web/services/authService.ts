@@ -1,12 +1,12 @@
 import { apiService } from "@/apis";
+import { ISingleResult, UserLoginBody } from "@packages/models";
 
 export const authService = () => {
   return {
-    async login() {
-      return await apiService.post("auth", {
-        username: "adminUser",
-        password: "securePassword123",
-      });
+    async login(
+      data: UserLoginBody
+    ): Promise<ISingleResult<{ access_token: string }>> {
+      return apiService.post("auth", data);
     },
   };
 };

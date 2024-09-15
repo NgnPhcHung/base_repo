@@ -1,12 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-
-export interface IManyResult<Resource> {
-  data: Resource[];
-  total: number;
-}
+import { IManyResult } from "./IManyResult";
 
 export class ManyResult<T> implements IManyResult<T> {
-  @ApiProperty({ type: () => [Object] as any, isArray: true }) 
+  @ApiProperty({ type: () => [Object] as any, isArray: true })
   data: T[];
 
   @ApiProperty({ example: 100, description: "Total number of items" })

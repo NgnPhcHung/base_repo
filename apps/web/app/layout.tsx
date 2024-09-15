@@ -1,4 +1,4 @@
-import { AppProvider, ReactQueryProvider } from "@/providers";
+import { AppProvider } from "@/providers";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";

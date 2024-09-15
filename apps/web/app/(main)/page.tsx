@@ -2,17 +2,17 @@
 
 import { useAuth } from "@/hooks";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { PropsWithChildren, useEffect } from "react";
 
-export default function Home() {
-  const isAuthenticated = useAuth();
+export default function Home({ children }: PropsWithChildren) {
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (isAuthenticated === null) return;
 
     if (!isAuthenticated) {
-      router.push("/login");
+      router.push("/auth/login");
       return;
     }
   }, [isAuthenticated, router]);

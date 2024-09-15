@@ -1,10 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IManyResult, ManyResult } from "./ManyResult";
-
-export interface IPaginationResult<Resource> extends IManyResult<Resource> {
-  page: number;
-  limit: number;
-}
+import { IPaginationResult } from "./IPaginationResult";
+import { ManyResult } from "./ManyResult";
 
 export class PaginationResult<T>
   extends ManyResult<T>

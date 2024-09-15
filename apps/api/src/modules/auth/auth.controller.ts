@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { User, UserCreationBody, UserLoginBody } from '@packages/models';
+import { SingleResult, User, UserCreationBody, UserLoginBody } from '@packages/models';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from 'src/entities';
 import { extractTokenFromHeader } from 'src/utils';
@@ -48,7 +48,7 @@ export class AuthController {
         await this.authService.login(user);
       this.authService.saveRefreshToken(user.id, refresh_token, SEVEN_DAYS);
 
-      return { access_token };
+      return new SingleResult({ access_token });
     } catch (error) {
       console.log(error);
       throw new UnauthorizedException(
@@ -67,7 +67,7 @@ export class AuthController {
       username: user.username,
     });
     if (existingUser) {
-      throw new ConflictException('User already exist');
+      throw new ConflictException('This name already taken!');
     }
     try {
       const passwordHashed = await bcrypt.hash(user.password, 10);
@@ -85,7 +85,7 @@ export class AuthController {
   async refreshToken(@CurrentUser() user: User) {
     const { access_token } = await this.authService.refreshToken(user);
 
-    return { access_token };
+    return new SingleResult({ access_token });
   }
 
   @Post('/session/check')

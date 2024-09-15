@@ -8,7 +8,7 @@ const nextConfig = {
     API_URL: process.env.API_URL,
     API_PREFIX: process.env.API_PREFIX,
     API_VERSION: process.env.API_VERSION,
-    REFRESH_API: process.env.REFRESH_API,
+    BASE_URL: process.env.BASE_URL,
   },
 };
 

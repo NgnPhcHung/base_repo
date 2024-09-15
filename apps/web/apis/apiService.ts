@@ -9,7 +9,6 @@ export interface ApiError {
 }
 
 export interface FetchDataResult<T> {
-  link?: string;
   data?: T;
   error: ApiError;
 }

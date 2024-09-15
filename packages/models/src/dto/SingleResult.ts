@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export interface ISingleResult<Resource> {
-  data: Resource;
+  data?: Resource;
 }
 
 export class SingleResult<T> implements ISingleResult<T> {

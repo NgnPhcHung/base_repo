@@ -1,3 +1,5 @@
+export * from "./IManyResult";
+export * from "./IPaginationResult";
 export * from "./ManyResult";
 export * from "./PaginateResult";
 export * from "./SingleResult";
