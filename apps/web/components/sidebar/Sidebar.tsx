@@ -1,6 +1,7 @@
 import { currentUser } from "@/store";
 import { Burger, NavLink } from "@mantine/core";
 import clsx from "clsx";
+import { usePathname, useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 export interface SidebarItem {
@@ -22,7 +23,7 @@ export const Sidebar = ({ items, classNames }: SidebarProps) => {
     setState: state.setState,
     isSidebarOpened: state.sidebarOpen,
   }));
-  // const currentPage = window.location.pathname.replace("/", "");
+  const pathName = usePathname().replace("/", "")
   return (
     <div
       className={clsx(
@@ -40,7 +41,7 @@ export const Sidebar = ({ items, classNames }: SidebarProps) => {
       {items.map((item) => (
         <NavLink
           key={item.label}
-          // href={currentPage === item.url ? undefined : item.url}
+          href={pathName === item.url ? undefined : item.url}
           leftSection={isSidebarOpened ? item.expandIcon : item.collapseIcon}
           label={isSidebarOpened ? item.label : undefined}
           // active={currentPage === item.url}

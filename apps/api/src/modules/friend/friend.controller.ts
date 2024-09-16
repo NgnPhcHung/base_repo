@@ -1,10 +1,9 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { Authorization, CurrentUser, Read } from '@decorators';
-import { FriendRequestEntity } from '@entities';
 import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { FriendRequest, PaginationResult, User } from '@packages/models';
+import { PaginationResult, User } from '@packages/models';
 import { FriendService } from './friend.service';
 
 @ApiTags('Friends')
@@ -15,9 +14,11 @@ export class FriendController {
 
   constructor(private readonly friendService: FriendService) {}
 
-  @Read('/', { dto: PaginationResult<User> })
+  @Read('/requests', { dto: PaginationResult<User> })
   @Authorization()
   async getListFriend(@CurrentUser() user: User) {
-    const [listRequest, count] = await this.friendService.getList(user);
+    const [listRequest, total] = await this.friendService.getList(user);
+
+    return new PaginationResult(listRequest, total, 0, 20);
   }
 }

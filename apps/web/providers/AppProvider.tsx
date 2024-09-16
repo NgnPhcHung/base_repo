@@ -1,5 +1,7 @@
 "use client";
 
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -10,8 +12,6 @@ import {
 } from "react";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import { SocketIOProvider } from "./SocketIOProvider";
-import { MantineProvider } from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
 
 interface IAppContext {
   authToken: string | null;

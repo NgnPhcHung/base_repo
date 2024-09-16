@@ -1,8 +1,8 @@
 "use client";
-import { Sidebar } from "@/components";
+import { Header, Sidebar } from "@/components";
 import { sidebarItem } from "@/components/sidebar/sidebarItem";
 import { useAuth } from "@/hooks";
-import { useSocket } from "@/providers";
+import { queryClient, useSocket } from "@/providers";
 import { userService } from "@/services";
 import { currentUser } from "@/store";
 import { AppShell } from "@mantine/core";
@@ -34,7 +34,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
       socket.emit("joinRoom", { room: data?.data?.id });
     });
     socket?.on("receiveFriendRequest", (data) => {
-      console.log("Friend request received:", data);
+      queryClient.invalidateQueries({ queryKey: ["list-friend-requests"] });
     });
   }, [socket, data]);
   return (
@@ -42,8 +42,14 @@ export default function MainLayout({ children }: PropsWithChildren) {
       navbar={{
         width: isSidebarOpened ? OPENED : CLOSED,
         breakpoint: "sm",
+        collapsed: { mobile: !isSidebarOpened },
       }}
     >
+      <AppShell.Header>
+        <div className="flex items-center justify-end">
+          <Header />
+        </div>
+      </AppShell.Header>
       <AppShell.Navbar>
         <Sidebar items={sidebarItem} />
       </AppShell.Navbar>

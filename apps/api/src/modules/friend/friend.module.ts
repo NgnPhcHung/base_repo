@@ -1,11 +1,10 @@
 import { FriendRequestEntity, FriendshipEntity, UserEntity } from '@entities';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FriendController } from './friend.controller';
-import { FriendService } from './friend.service';
-import { FriendGateway } from './friend.gateway';
 import { UserService } from '../user/user.service';
-import { FriendMapper } from './friend.mapper';
+import { FriendController } from './friend.controller';
+import { FriendGateway } from './friend.gateway';
+import { FriendService } from './friend.service';
 
 @Module({
   imports: [
@@ -16,6 +15,6 @@ import { FriendMapper } from './friend.mapper';
     ]),
   ],
   providers: [FriendService, FriendGateway, UserService],
-  controllers: [FriendController, FriendMapper],
+  controllers: [FriendController],
 })
 export class FriendModule {}
