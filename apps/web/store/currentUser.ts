@@ -1,21 +1,27 @@
+import { User } from "@packages/models";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface Actions {
   setState: (value: Partial<States>) => void;
+  setUser: (value: User) => void;
 }
 
 interface States {
   sidebarOpen?: boolean;
 }
-
-type Store = Actions & { state: States };
+interface UserState {
+  user?: User;
+}
+type Store = Actions & States & UserState;
 
 export const currentUser = create(
   persist<Store>(
     (set, get) => ({
       state: { sidebarOpen: true },
-      setState: ({ sidebarOpen }) => set({ state: { sidebarOpen } }),
+      user: undefined,
+      setState: ({ sidebarOpen }) => set({ sidebarOpen }),
+      setUser: (user) => set({ user }),
     }),
     {
       name: "currentUser",

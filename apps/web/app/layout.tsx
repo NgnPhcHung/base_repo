@@ -1,6 +1,7 @@
 import { AppProvider } from "@/providers";
-import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { ColorSchemeScript } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -23,11 +24,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
-        <AppProvider>
-          <MantineProvider defaultColorScheme="light">
-            {children}
-          </MantineProvider>
-        </AppProvider>
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );

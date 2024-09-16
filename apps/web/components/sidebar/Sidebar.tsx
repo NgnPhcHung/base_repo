@@ -20,9 +20,9 @@ interface SidebarProps {
 export const Sidebar = ({ items, classNames }: SidebarProps) => {
   const { setState, isSidebarOpened } = currentUser((state) => ({
     setState: state.setState,
-    isSidebarOpened: state.state.sidebarOpen,
+    isSidebarOpened: state.sidebarOpen,
   }));
-  const currentPage = window.location.pathname.replace("/", "");
+  // const currentPage = window.location.pathname.replace("/", "");
   return (
     <div
       className={clsx(
@@ -40,10 +40,10 @@ export const Sidebar = ({ items, classNames }: SidebarProps) => {
       {items.map((item) => (
         <NavLink
           key={item.label}
-          href={currentPage === item.url ? undefined : item.url}
+          // href={currentPage === item.url ? undefined : item.url}
           leftSection={isSidebarOpened ? item.expandIcon : item.collapseIcon}
           label={isSidebarOpened ? item.label : undefined}
-          active={currentPage === item.url}
+          // active={currentPage === item.url}
           className={clsx(!isSidebarOpened && "flex items-center")}
           classNames={{
             label: "font-semibold text-lg",

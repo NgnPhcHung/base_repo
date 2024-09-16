@@ -3,7 +3,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FriendController } from './friend.controller';
 import { FriendService } from './friend.service';
-import { FriendGateway } from './frient.gateway';
+import { FriendGateway } from './friend.gateway';
+import { UserService } from '../user/user.service';
+import { FriendMapper } from './friend.mapper';
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { FriendGateway } from './frient.gateway';
       UserEntity,
     ]),
   ],
-  providers: [FriendService, FriendGateway],
-  controllers: [FriendController],
+  providers: [FriendService, FriendGateway, UserService],
+  controllers: [FriendController, FriendMapper],
 })
 export class FriendModule {}

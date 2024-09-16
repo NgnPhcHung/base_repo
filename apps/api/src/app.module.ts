@@ -10,6 +10,7 @@ import * as entities from './entities';
 import { AuthModule, UserModule } from './modules';
 import { RedisAppModule } from './modules/redis';
 import { DefaultMapper } from './utils';
+import { FriendModule } from './modules/friend/friend.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { DefaultMapper } from './utils';
     DatabaseModule,
     UserModule,
     RedisAppModule,
+    FriendModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

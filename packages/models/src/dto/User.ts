@@ -1,5 +1,5 @@
 import { AutoMap } from "@automapper/classes";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Thing } from "./Thing";
 import { UserRole } from "../consts";
 
@@ -18,6 +18,11 @@ export class User extends Thing {
   @ApiProperty()
   @AutoMap()
   lastName!: string;
+
+
+  @ApiPropertyOptional()
+  @AutoMap()
+  fullName?: string;
 
   @ApiProperty({ enum: UserRole })
   @AutoMap()

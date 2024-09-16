@@ -1,12 +1,13 @@
 "use client";
 
 import { useAuth } from "@/hooks";
+import { Button } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useEffect } from "react";
 
 export default function Home({ children }: PropsWithChildren) {
-  const { isAuthenticated } = useAuth();
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated === null) return;
@@ -21,5 +22,10 @@ export default function Home({ children }: PropsWithChildren) {
     return <div>Loading...</div>;
   }
 
-  return <div>Welcome to the Home Page</div>;
+  return (
+    <div>
+      Welcome to the Home Page
+      <Button>Get Me</Button>
+    </div>
+  );
 }

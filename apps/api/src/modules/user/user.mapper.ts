@@ -1,4 +1,10 @@
-import { createMap, forMember, ignore, Mapper } from '@automapper/core';
+import {
+  createMap,
+  forMember,
+  ignore,
+  mapFrom,
+  Mapper,
+} from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { UserEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
@@ -18,6 +24,10 @@ export class UserMapper extends AutomapperProfile {
         User,
         forMember((d) => d.password, ignore()),
         forMember((d) => d.hash, ignore()),
+        forMember(
+          (destination) => destination.fullName,
+          mapFrom((source) => source.firstName + ' ' + source.lastName),
+        ),
       );
     };
   }

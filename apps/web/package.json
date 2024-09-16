@@ -11,7 +11,9 @@
   "dependencies": {
     "@mantine/core": "^7.12.1",
     "@mantine/hooks": "^7.12.1",
+    "@mantine/notifications": "^7.12.2",
     "@packages/models": "workspace:*",
+    "@packages/ui": "workspace:*",
     "@tabler/icons-react": "^3.16.0",
     "@tanstack/react-query": "^5.55.4",
     "@types/socket.io-client": "^3.0.0",

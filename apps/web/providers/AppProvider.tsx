@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   createContext,
   PropsWithChildren,
@@ -9,7 +10,8 @@ import {
 } from "react";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import { SocketIOProvider } from "./SocketIOProvider";
-import { useRouter } from "next/navigation";
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 
 interface IAppContext {
   authToken: string | null;
@@ -96,7 +98,12 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
   return (
     <AppContext.Provider value={{ authToken, setAuthToken }}>
       <ReactQueryProvider>
-        <SocketIOProvider>{children}</SocketIOProvider>
+        <SocketIOProvider namespace="friends">
+          <MantineProvider defaultColorScheme="light">
+            <Notifications />
+            {children}
+          </MantineProvider>
+        </SocketIOProvider>
       </ReactQueryProvider>
     </AppContext.Provider>
   );

@@ -18,7 +18,6 @@ export class CookieJwtGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
 
     const token = request.header['next-auth.csrf-token']; 
-    console.log('-------------', token);
 
     if (!token) {
       throw new UnauthorizedException('No token provided in cookies');
