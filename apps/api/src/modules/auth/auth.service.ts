@@ -32,44 +32,39 @@ export class AuthService {
     await this.userService.create(userDto);
   }
 
-  async validateToken(token: string) {
-    return this.jwtService.verify(token, {
-      secret: process.env.JWT_SECRET,
+  async validateRefreshToken(refreshToken: string) {
+    const { user } = await this.jwtService.verify(refreshToken, {
+      secret: process.env.JWT_REFRESH_TOKEN_SECRET,
     });
+
+    return user;
   }
 
   async login(user: UserEntity) {
+    const access_token = await this.jwtService.signAsync({ user: user.id });
+    const refresh_token = await this.jwtService.signAsync(
+      { user: user.id },
+      {
+        secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+        expiresIn: '7d',
+      },
+    );
     return {
-      access_token: this.jwtService.sign({ user: user.id }),
-      refresh_token: this.jwtService.sign(
-        { user: user.id },
-        {
-          secret: process.env.JWT_REFRESH_TOKEN_SECRET,
-          expiresIn: '7d',
-        },
-      ),
+      access_token,
+      refresh_token,
     };
   }
 
-  async validateRefreshToken(user: User) {
-    const refreshToken = await this.getRefreshToken(user.id);
-    if (refreshToken) {
-      return { user: user.id };
-    }
-    throw new UnauthorizedException();
-  }
-
-  async refreshToken(payload: User) {
-    const { user } = await this.validateRefreshToken(payload);
-
-    const sub = { user };
-
-    return {
-      access_token: this.jwtService.sign(sub, {
+  async generateAccessToken(userId: number) {
+    return this.jwtService.sign(
+      { user: userId },
+      {
         secret: process.env.JWT_SECRET,
-      }),
-    };
+      },
+    );
   }
+
+  // ---------------
   async saveRefreshToken(
     userId: number,
     refreshToken: string,

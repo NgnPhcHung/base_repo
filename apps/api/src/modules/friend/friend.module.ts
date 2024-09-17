@@ -5,6 +5,9 @@ import { UserService } from '../user/user.service';
 import { FriendController } from './friend.controller';
 import { FriendGateway } from './friend.gateway';
 import { FriendService } from './friend.service';
+import { FriendRequestMapper } from './friend.mapper';
+import { FriendshipService } from './friendship.service';
+import { FriendRequestService } from './friend-request.service';
 
 @Module({
   imports: [
@@ -14,7 +17,15 @@ import { FriendService } from './friend.service';
       UserEntity,
     ]),
   ],
-  providers: [FriendService, FriendGateway, UserService],
+  providers: [
+    UserService,
+    UserService,
+    FriendGateway,
+    FriendService,
+    FriendshipService,
+    FriendRequestMapper,
+    FriendRequestService,
+  ],
   controllers: [FriendController],
 })
 export class FriendModule {}

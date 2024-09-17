@@ -1,22 +1,30 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { Authorization, Create, CurrentUser } from '@decorators';
+import { Create } from '@decorators';
 import {
   Body,
   ConflictException,
   Controller,
+  ForbiddenException,
   Inject,
   Post,
-  Request,
+  Req,
+  Res,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SingleResult, User, UserCreationBody, UserLoginBody } from '@packages/models';
+import {
+  SingleResult,
+  User,
+  UserCreationBody,
+  UserLoginBody,
+} from '@packages/models';
 import * as bcrypt from 'bcrypt';
+import { Response } from 'express';
 import { UserEntity } from 'src/entities';
-import { extractTokenFromHeader } from 'src/utils';
+import { ExpressRequest } from 'src/types';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 
@@ -26,36 +34,12 @@ const SEVEN_DAYS = 7 * 24 * 60 * 60;
 @Controller('auth')
 export class AuthController {
   @InjectMapper() mapper: Mapper;
+
   @Inject(UserService)
   private userService: UserService;
 
   @Inject(AuthService)
   private authService: AuthService;
-
-  @Create({
-    inputDto: UserLoginBody,
-    dto: User,
-  })
-  @UseGuards(AuthGuard('local'))
-  async login(@Body() payload: UserLoginBody) {
-    const mappedUser = this.mapper.map(payload, UserLoginBody, UserEntity);
-
-    try {
-      const user = await this.userService.findBy({
-        username: mappedUser.username,
-      });
-      const { access_token, refresh_token } =
-        await this.authService.login(user);
-      this.authService.saveRefreshToken(user.id, refresh_token, SEVEN_DAYS);
-
-      return new SingleResult({ access_token });
-    } catch (error) {
-      console.log(error);
-      throw new UnauthorizedException(
-        'Error while creating account, please try again later!',
-      );
-    }
-  }
 
   @Create({
     inputDto: UserCreationBody,
@@ -80,19 +64,48 @@ export class AuthController {
     }
   }
 
-  @Post('/session/refresh')
-  @Authorization()
-  async refreshToken(@CurrentUser() user: User) {
-    const { access_token } = await this.authService.refreshToken(user);
+  @Create({
+    inputDto: UserLoginBody,
+    dto: User,
+  })
+  @UseGuards(AuthGuard('local'))
+  async login(@Body() payload: UserLoginBody, @Res() res: Response) {
+    const mappedUser = this.mapper.map(payload, UserLoginBody, UserEntity);
 
-    return new SingleResult({ access_token });
+    try {
+      const user = await this.userService.findBy({
+        username: mappedUser.username,
+      });
+      const { access_token, refresh_token } =
+        await this.authService.login(user);
+      this.authService.saveRefreshToken(user.id, refresh_token, SEVEN_DAYS);
+      res.cookie('refreshToken', refresh_token, {
+        httpOnly: true,
+        path: '/auth/session/refresh',
+        // sameSite: 'strict',
+      });
+      return res.send(new SingleResult({ access_token }));
+    } catch (error) {
+      throw new UnauthorizedException(
+        'Error while creating account, please try again later!',
+      );
+    }
   }
 
-  @Post('/session/check')
-  @Authorization()
-  async checkToken(@Request() req) {
-    const getToken = extractTokenFromHeader(req);
-    const token = await this.authService.validateToken(getToken);
-    console.log('-------------', token);
+  @Post('/session/refresh')
+  async refreshAccessToken(@Req() req: ExpressRequest) {
+    try {
+      const user = await this.authService.validateRefreshToken(
+        req.cookies['refreshToken'],
+      );
+      if (!user) {
+        throw new ForbiddenException('Token invalid');
+      }
+      const access_token = await this.authService.generateAccessToken(user);
+
+      return new SingleResult({ access_token });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

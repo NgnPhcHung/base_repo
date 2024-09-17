@@ -1,9 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
   Injectable,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/modules/user/user.service';
@@ -32,7 +31,7 @@ export class JwtAuthGuard implements CanActivate {
       request['user'] = user;
       return true;
     } catch (error) {
-      throw new ForbiddenException(
+      throw new UnauthorizedException(
         error.message || 'session expired! Please sign In',
       );
     }

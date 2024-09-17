@@ -7,7 +7,7 @@ export const FriendList = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ["list-friend"],
-    queryFn: friendApi.getList,
+    queryFn: friendApi.getFriendRequestList,
   });
 
   if (isLoading) {

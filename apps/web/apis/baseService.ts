@@ -15,6 +15,7 @@ function addSubscriber(callback: Function) {
 export const baseService = axios.create({
   timeout: 60000,
   baseURL: `${process.env.API_URL}/${process.env.API_VERSION}/${process.env.API_PREFIX}`,
+  withCredentials: true,
 });
 
 baseService.interceptors.request.use(
@@ -37,38 +38,50 @@ baseService.interceptors.response.use(
     } = error;
     const originalRequest = config;
 
-    // if (status === 401 && !originalRequest._retry) {
-    //   if (!isRefreshing) {
-    //     isRefreshing = true;
-    //     originalRequest._retry = true;
+    if (status === 401 && !originalRequest._retry) {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        originalRequest._retry = true;
 
-    //     try {
-    //       const refreshToken = sessionStorage.getItem("refresh_token");
-    //       const res = await axios.post("/api/auth/refresh", { refreshToken });
+        try {
+          const token = sessionStorage.getItem("access_token");
+          config.headers["refreshToken"] = `Bearer ${token}`;
+          const res = await axios.post(
+            "http://localhost:3456/v1/api/auth/session/refresh",{},
+            {
+              ...config,
 
-    //       if (res.status === 200) {
-    //         const { accessToken,  } = res.data;
-    //         localStorage.setItem("access_token", accessToken);
-    //         baseService.defaults.headers.common["Authorization"] =
-    //           `Bearer ${accessToken}`;
-    //         onAccessTokenFetched(accessToken);
-    //         isRefreshing = false;
-    //         return baseService(originalRequest);
-    //       }
-    //     } catch (refreshError) {
-    //       isRefreshing = false;
-    //       subscribers = [];
-    //       return Promise.reject(refreshError);
-    //     }
-    //   } else {
-    //     return new Promise((resolve) => {
-    //       addSubscriber((accessToken: string) => {
-    //         originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
-    //         resolve(baseService(originalRequest));
-    //       });
-    //     });
-    //   }
-    // }
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              withCredentials: true,
+            }
+          );
+          if (res.status === 201) {
+            const { access_token } = res.data.data;
+            console.log(res.data);
+            sessionStorage.setItem("access_token", access_token);
+            baseService.defaults.headers.common["Authorization"] =
+              `Bearer ${access_token}`;
+            onAccessTokenFetched(access_token);
+            isRefreshing = false;
+            return baseService(originalRequest);
+          }
+        } catch (refreshError) {
+          isRefreshing = false;
+          subscribers = [];
+          window.location.href = '/auth/login';
+          return Promise.reject(refreshError);
+        }
+      } else {
+        return new Promise((resolve) => {
+          addSubscriber((accessToken: string) => {
+            originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+            resolve(baseService(originalRequest));
+          });
+        });
+      }
+    }
 
     return Promise.reject(error);
   }

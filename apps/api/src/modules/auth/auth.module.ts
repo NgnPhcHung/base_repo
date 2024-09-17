@@ -13,10 +13,12 @@ import { AuthService } from './auth.service';
   imports: [
     UserModule,
     PassportModule,
-    JwtModule.register({
+    JwtModule.registerAsync({
       global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '2m' },
+      useFactory: async () => ({
+        secret: process.env.JWT_SECRET,
+        signOptions: { expiresIn: '1m' },
+      }),
     }),
   ],
   providers: [

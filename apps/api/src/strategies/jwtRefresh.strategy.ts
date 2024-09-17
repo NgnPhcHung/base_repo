@@ -13,16 +13,16 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          return request?.cookies?.['refreshToken']; // Ensure your cookie name matches
+          return request?.cookies?.['refreshToken'];
         },
       ]),
       secretOrKey: process.env.JWT_REFRESH_TOKEN_SECRET,
-      ignoreExpiration: false, // Depends on your use case
+      ignoreExpiration: false, 
     });
   }
 
   async validate(req: any, payload: any) {
-    console.log('Cookies received:', req.cookies); // Log cookies to see if they're being passed correctly
-    const refreshToken = req.cookies['refreshToken']; // Match this key to your cookie's name
+    console.log('Cookies received:', req.cookies);
+    const refreshToken = req.cookies['refreshToken']; 
   }
 }

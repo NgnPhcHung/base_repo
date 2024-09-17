@@ -9,6 +9,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { UserService } from '../user/user.service';
 import { FriendService } from './friend.service';
+import { FriendRequestService } from './friend-request.service';
 
 @WebSocketGateway({
   namespace: '/friends',
@@ -20,6 +21,7 @@ export class FriendGateway {
   constructor(
     private readonly userService: UserService,
     private readonly friendService: FriendService,
+    private readonly friendRequestService: FriendRequestService,
   ) {}
 
   @SubscribeMessage('sendFriendRequest')
@@ -29,7 +31,7 @@ export class FriendGateway {
   ) {
     const receiver = await this.userService.findBy({ id: data.receiverId });
     const sender = await this.userService.findBy({ id: data.senderId });
-    const isRequestExisted = await this.friendService.isRequestExisted(
+    const isRequestExisted = await this.friendRequestService.isRequestExisted(
       sender,
       receiver,
     );
@@ -41,7 +43,7 @@ export class FriendGateway {
       return;
     }
 
-    this.friendService
+    this.friendRequestService
       .createFriendRequest(sender, receiver)
       .then(() => {
         this.server.to(receiver.id.toString()).emit('receiveFriendRequest', {

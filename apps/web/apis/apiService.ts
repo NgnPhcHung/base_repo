@@ -16,6 +16,7 @@ export interface FetchDataResult<T> {
 export interface ApiServices {
   get: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
   post: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
+  put: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
   delete: <T>(url: string) => Promise<FetchDataResult<T>>;
   patch: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
   fetchData: <T>(param: object) => Promise<FetchDataResult<T>>;
@@ -52,6 +53,14 @@ export const apiService: ApiServices = {
   },
 
   patch(url, payload) {
+    return this.fetchData({
+      url,
+      method: "patch",
+      data: payload,
+    });
+  },
+
+  put(url, payload) {
     return this.fetchData({
       url,
       method: "patch",

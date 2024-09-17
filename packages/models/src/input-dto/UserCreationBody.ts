@@ -20,6 +20,6 @@ export class UserCreationBody {
   password!: string;
 
   @AutoMap()
-  @ApiProperty()
+  @ApiProperty({ enum: UserRole })
   role!: UserRole;
 }
