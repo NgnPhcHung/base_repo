@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
+import * as  fs from "fs";
 
 dotenv.config();
 
@@ -42,6 +43,8 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {});
+  fs.writeFileSync('../../cli/src/swagger-schema.json', JSON.stringify(document));
+
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: { basePath: '/v1/api' },
   });

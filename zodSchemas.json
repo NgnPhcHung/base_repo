@@ -1,0 +1,118 @@
+{
+  "UserCreationBody": {
+    "type": "object",
+    "properties": {
+      "firstName": {
+        "type": "string"
+      },
+      "lastName": {
+        "type": "string"
+      },
+      "username": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "role": {
+        "type": "string"
+      }
+    }
+  },
+  "SingleResult": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  "User": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number"
+      },
+      "hash": {
+        "type": "unknown"
+      },
+      "isArchived": {
+        "type": "unknown"
+      },
+      "dateCreate": {
+        "type": "unknown"
+      },
+      "dateUpdate": {
+        "type": "unknown"
+      },
+      "username": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "firstName": {
+        "type": "string"
+      },
+      "lastName": {
+        "type": "string"
+      },
+      "fullName": {
+        "type": "unknown"
+      },
+      "role": {
+        "type": "string"
+      }
+    }
+  },
+  "UserLoginBody": {
+    "type": "object",
+    "properties": {
+      "username": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      }
+    }
+  },
+  "PaginationResult": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "total": {
+        "type": "number"
+      },
+      "page": {
+        "type": "number"
+      },
+      "limit": {
+        "type": "number"
+      }
+    }
+  },
+  "FriendRequestUpdatingBody": {
+    "type": "object",
+    "properties": {
+      "senderId": {
+        "type": "number"
+      },
+      "receiverId": {
+        "type": "number"
+      },
+      "status": {
+        "type": "string"
+      }
+    }
+  }
+}

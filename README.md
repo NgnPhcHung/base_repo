@@ -57,8 +57,9 @@ After that, to use in other repo, run command in repo that just modified:
 ```bash
     pnpm i
 ```
-because of using Nestjs it's point to dist(build folder), but now I can not config to build automatic when install, so you have to navigate to each workspace and build one by one until I can config it build auto in installation step 
+After complete install, run
 ```
+pnpm build
 ``
 
 run this command to generate an initial configuration for `Synapse`
