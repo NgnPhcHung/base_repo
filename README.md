@@ -57,10 +57,24 @@ After that, to use in other repo, run command in repo that just modified:
 ```bash
     pnpm i
 ```
-After complete install, run
+**After complete install, run:**
+
+```bash
+turbo run build
 ```
-pnpm build
-``
+
+### When create/update to dtos or models in  `packages/models/`
+> Step 1: in `apps/api`, if project is running please shutdown it and re-run
+```bash
+    pnpm run start:dev
+```
+> Step 2: in root project a.k.a root directory, run
+
+```bash
+    pnpm run gen:swagger # run this command first
+    pnpm run gen:types # after that run this command
+```
+Now in front-end can import `models/` or `dtos/` created from `@repo/schemas`
 
 run this command to generate an initial configuration for `Synapse`
 

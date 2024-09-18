@@ -43,7 +43,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {});
-  fs.writeFileSync('../../cli/src/swagger-schema.json', JSON.stringify(document));
+  fs.writeFileSync('../../schemas/src/swagger-schema.json', JSON.stringify(document));
 
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: { basePath: '/v1/api' },

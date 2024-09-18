@@ -23,12 +23,21 @@
       "cache": false,
       "persistent": true
     },
-    "gen:types": {
+    "gen:swagger": {
       "outputs": [
         "none"
       ],
       "dependsOn": [
         "^build"
+      ],
+      "cache": false
+    },
+    "gen:types": {
+      "outputs": [
+        "none"
+      ],
+      "dependsOn": [
+        "^gen:swagger"
       ],
       "cache": false
     }

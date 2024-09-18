@@ -1,21 +1,12 @@
 import { promises as fs } from "fs";
 import * as z from "zod";
-import * as swaggerDocument from "./swagger-schema.json";
+import * as swaggerDocument from "../../schemas/src/swagger-schema.json";
 
-interface SwaggerProperty {
-  type: string;
-  enum?: (string | number)[];
-  items?: any;
-  required?: string[];
-  properties?: Record<string, SwaggerProperty>;
-  format: any;
-}
 function convertSchemaToZod(schema) {
-
   switch (schema.type) {
     case "string":
       if (schema.format === "date-time") {
-        return z.date(); 
+        return z.date();
       }
       return z.string();
     case "integer":
@@ -23,13 +14,12 @@ function convertSchemaToZod(schema) {
     case "number":
       return z.number();
     case "boolean":
-      return z.boolean(); 
+      return z.boolean();
     case "object":
       const properties = schema.properties || {};
       const zodObject = {};
       Object.entries(properties).forEach(([key, value]) => {
         zodObject[key] = convertSchemaToZod(value);
-        console.log(key, (value as any).type=="boolean")
         if (!(schema.required && schema.required.includes(key))) {
           zodObject[key] = zodObject[key].optional();
         }
@@ -38,7 +28,7 @@ function convertSchemaToZod(schema) {
     case "array":
       return z.array(convertSchemaToZod(schema.items));
     default:
-      return z.any(); 
+      return z.any();
   }
 }
 
@@ -65,6 +55,13 @@ function serializeZodSchema(schema: z.ZodType<any, any>): any {
     return { type: "object", properties };
   } else if (schema instanceof z.ZodArray) {
     return { type: "array", items: serializeZodSchema(schema.element) };
+  } else if (schema instanceof z.ZodOptional) {
+    const innerType = serializeZodSchema(schema.unwrap());
+    return {
+      type: innerType.type,
+      optional: true,
+      details: innerType,
+    };
   } else {
     return { type: "unknown" };
   }
@@ -75,13 +72,17 @@ async function convertSwaggerToZodAndSave(swaggerDoc: any) {
   const zodSchemas = Object.keys(schemas).reduce(
     (acc, schemaName) => {
       const zodSchema = convertSchemaToZod(schemas[schemaName]);
+
       acc[schemaName] = serializeZodSchema(zodSchema);
       return acc;
     },
     {} as Record<string, any>
   );
 
-  await fs.writeFile("./zodSchemas.json", JSON.stringify(zodSchemas, null, 2));
+  await fs.writeFile(
+    "./schemas/src/zodSchemas.json",
+    JSON.stringify(zodSchemas, null, 2)
+  );
   console.log("Zod schemas saved to 'zodSchemas.json'");
 }
 

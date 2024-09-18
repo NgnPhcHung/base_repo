@@ -35,16 +35,32 @@
         "type": "number"
       },
       "hash": {
-        "type": "unknown"
+        "type": "string",
+        "optional": true,
+        "details": {
+          "type": "string"
+        }
       },
       "isArchived": {
-        "type": "unknown"
+        "type": "boolean",
+        "optional": true,
+        "details": {
+          "type": "boolean"
+        }
       },
       "dateCreate": {
-        "type": "unknown"
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
       },
       "dateUpdate": {
-        "type": "unknown"
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
       },
       "username": {
         "type": "string"
@@ -59,7 +75,11 @@
         "type": "string"
       },
       "fullName": {
-        "type": "unknown"
+        "type": "string",
+        "optional": true,
+        "details": {
+          "type": "string"
+        }
       },
       "role": {
         "type": "string"
