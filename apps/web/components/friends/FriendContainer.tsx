@@ -1,4 +1,4 @@
-import { Tabs, TabsList } from "@mantine/core";
+import { Tabs } from "@mantine/core";
 import { FindFriend } from "./FindFriend";
 import { FriendList } from "./FriendList";
 import { FriendRequestList } from "./FriendRequestList";
@@ -20,9 +20,9 @@ export const FriendContainer = () => {
         <Tabs.Panel value={TabValue.Friends}>
           <FriendList />
         </Tabs.Panel>
-        
+
         <Tabs.Panel value={TabValue.Requests}>
-          <FriendRequestList/>
+          <FriendRequestList />
         </Tabs.Panel>
       </Tabs>
     </div>

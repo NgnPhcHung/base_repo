@@ -80,8 +80,8 @@ export class AuthController {
         await this.authService.login(user);
       this.authService.saveRefreshToken(user.id, refresh_token, SEVEN_DAYS);
       res.cookie('refreshToken', refresh_token, {
-        httpOnly: true,
-        path: '/auth/session/refresh',
+        // httpOnly: true,
+        path: '/v1/api/auth/session/refresh',
         // sameSite: 'strict',
       });
       return res.send(new SingleResult({ access_token }));

@@ -1,8 +1,8 @@
 import { AutoMap } from "@automapper/classes";
-import { Thing } from "./Thing";
 import { ApiProperty } from "@nestjs/swagger";
-import { User } from "./User";
 import { FriendRequestStatus } from "../consts";
+import { Thing } from "./Thing";
+import { User } from "./User";
 
 export class FriendRequest extends Thing{
     @ApiProperty()

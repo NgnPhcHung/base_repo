@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.11.3",
     "@mantine/core": "^7.12.1",
     "@mantine/hooks": "^7.12.1",
     "@mantine/notifications": "^7.12.2",
