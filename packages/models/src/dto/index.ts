@@ -2,6 +2,7 @@ export * from "./FriendRequest";
 export * from "./Friendship";
 export * from "./IManyResult";
 export * from "./IPaginationResult";
+export * from "./ISingleResult";
 export * from "./ManyResult";
 export * from "./PaginateResult";
 export * from "./SingleResult";

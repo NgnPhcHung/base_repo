@@ -7,8 +7,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "gen:types": "ts-node ./cli/src/typescriptConverter.ts & turbo run build",
-    "gen:swagger": "ts-node ./cli/src/zodConverter.ts "
+    "gen:types": "ts-node ./cli/src/typescriptConverter.ts ",
+    "gen:swagger": "ts-node ./cli/src/zodConverter.ts"
   },
   "devDependencies": {
     "@types/node": "^22.5.5",

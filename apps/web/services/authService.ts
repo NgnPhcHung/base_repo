@@ -1,5 +1,7 @@
 import { apiService } from "@/apis";
-import { ISingleResult, UserLoginBody } from "@packages/models";
+import { ISingleResult } from "@packages/models";
+import { UserLoginBody } from "@repo/schemas";
+
 
 export const authService = () => {
   return {

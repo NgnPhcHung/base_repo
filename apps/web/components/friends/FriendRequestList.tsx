@@ -1,9 +1,11 @@
-
-"use client"
+"use client";
 import { friendService } from "@/services";
 import { Button } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loading } from "../common";
+import { FriendRequestUpdatingBody } from "@repo/schemas";
+import { FriendRequestStatus } from "@/consts";
+
 
 export const FriendRequestList = () => {
   const friendApi = friendService();
@@ -13,20 +15,20 @@ export const FriendRequestList = () => {
     queryFn: friendApi.getFriendRequestList,
   });
 
-  // const { mutate: handleAccept, isPending } = useMutation({
-  //   mutationKey: ["login"],
-  //   mutationFn: async (data: FriendRequestUpdatingBody) => {
-  //     if (!data.receiverId || !data.receiverId) {
-  //       return;
-  //     }
-  //     const res: any = await friendApi.acceptRequest(data);
+  const { mutate: handleAccept, isPending } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: async (data: FriendRequestUpdatingBody) => {
+      if (!data.receiverId || !data.receiverId) {
+        return;
+      }
+      const res: any = await friendApi.acceptRequest(data);
 
-  //     // if (res) {
-  //     //   saveToken(res);
-  //     //   router.push("/");
-  //     // }
-  //   },
-  // });
+      // if (res) {
+      //   saveToken(res);
+      //   router.push("/");
+      // }
+    },
+  });
 
   if (isLoading) {
     return <Loading />;
@@ -37,7 +39,7 @@ export const FriendRequestList = () => {
         <div key={request.id} className="flex items-center space-x-2">
           <p>{request.sender.fullName}</p>
           <Button variant="outline">Reject</Button>
-          {/* <Button
+          <Button
             loading={isPending}
             onClick={() =>
               handleAccept({
@@ -48,10 +50,9 @@ export const FriendRequestList = () => {
             }
           >
             Accept
-          </Button> */}
+          </Button>
         </div>
       ))}
     </div>
   );
 };
-

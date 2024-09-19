@@ -1,13 +1,13 @@
 "use client";
 
+import { useAuth } from "@/hooks";
 import { authService } from "@/services";
-import { Anchor, Button, TextInput, UnstyledButton } from "@mantine/core";
-import { UserLoginBody } from "@packages/models";
+import { Button, TextInput } from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { MutationFunction, useMutation, useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { useAuth } from "@/hooks";
+import { UserLoginBody } from "@repo/schemas";
 
 export default function LoginPage() {
   const authApi = authService();
@@ -23,9 +23,9 @@ export default function LoginPage() {
     mutationKey: ["login"],
     mutationFn: async (data: UserLoginBody) => {
       const res: any = await authApi.login(data);
-      
+
       if (res) {
-        saveToken(res)
+        saveToken(res);
         router.push("/");
       }
     },

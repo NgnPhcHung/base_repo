@@ -39,13 +39,17 @@ function mapType(schema: ZodSchema): string {
     case "boolean":
       return schema.type;
     case "date":
-      return 'Date';
-    case "array":
-      return `${mapType(schema.items!)}`;
-    case "object":
-      return "{ [key: string]: any }";
+      return "Date";
     case "enum":
-      return schema.values!.map((v) => `'${v}'`).join(" | ");
+      return schema.values!.map((value) => `'${value}'`).join(" | ");
+    case "array":
+      return `${mapType(schema.items!)}[]`;
+    case "object":
+      const properties = Object.entries(schema.properties || {}).reduce((acc, [key, propSchema]) => {
+        acc[key] = mapType(propSchema);
+        return acc;
+      }, {} as Record<string, string>);
+      return `{ ${Object.entries(properties).map(([key, type]) => `${key}: ${type}`).join("; ")} }`;
     default:
       return "any";
   }

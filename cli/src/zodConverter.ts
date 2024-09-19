@@ -5,14 +5,16 @@ import * as swaggerDocument from "../../schemas/src/swagger-schema.json";
 function convertSchemaToZod(schema) {
   switch (schema.type) {
     case "string":
-      if (schema.format === "date-time") {
+      if (schema.enum) {
+        return z.enum(schema.enum);
+      } else if (schema.format === "date-time") {
         return z.date();
       }
       return z.string();
     case "integer":
-      return z.number().int();
+      return schema.enum ? z.enum(schema.enum.map(String)) : z.number().int();
     case "number":
-      return z.number();
+      return schema.enum ? z.enum(schema.enum.map(String)) : z.number();
     case "boolean":
       return z.boolean();
     case "object":

@@ -3,7 +3,7 @@ import { useSocket } from "@/providers";
 import { userService } from "@/services";
 import { currentUser } from "@/store";
 import { Button, TextInput } from "@mantine/core";
-import { User } from "@packages/models";
+import { User } from "@repo/schemas";
 import { IconPlus } from "@tabler/icons-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

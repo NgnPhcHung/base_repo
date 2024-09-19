@@ -15,7 +15,11 @@
         "type": "string"
       },
       "role": {
-        "type": "string"
+        "type": "enum",
+        "values": [
+          "admin",
+          "user"
+        ]
       }
     }
   },
@@ -82,7 +86,11 @@
         }
       },
       "role": {
-        "type": "string"
+        "type": "enum",
+        "values": [
+          "admin",
+          "user"
+        ]
       }
     }
   },
@@ -131,7 +139,12 @@
         "type": "number"
       },
       "status": {
-        "type": "string"
+        "type": "enum",
+        "values": [
+          "Pending",
+          "Accepted",
+          "Rejected"
+        ]
       }
     }
   }

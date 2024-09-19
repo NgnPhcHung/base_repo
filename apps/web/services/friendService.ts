@@ -1,9 +1,6 @@
 import { apiService } from "@/apis";
-import {
-  FriendRequest,
-  FriendRequestUpdatingBody,
-  Friendship,
-} from "@packages/models";
+import { FriendRequest, Friendship } from "@packages/models";
+import { FriendRequestUpdatingBody } from "@repo/schemas";
 
 export const friendService = () => {
   return {
@@ -12,7 +9,7 @@ export const friendService = () => {
     },
 
     async acceptRequest(payload: FriendRequestUpdatingBody) {
-      return apiService.put<Friendship[]>("friends/request",payload);
+      return apiService.put<Friendship[]>("friends/request", payload);
     },
   };
 };
