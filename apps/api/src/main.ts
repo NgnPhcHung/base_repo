@@ -10,6 +10,7 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  
   const logger = new Logger();
   app.useGlobalPipes(
     new ValidationPipe({

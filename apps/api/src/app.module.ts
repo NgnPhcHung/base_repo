@@ -8,9 +8,9 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import * as entities from './entities';
 import { AuthModule, UserModule } from './modules';
+import { FriendModule } from './modules/friend/friend.module';
 import { RedisAppModule } from './modules/redis';
 import { DefaultMapper } from './utils';
-import { FriendModule } from './modules/friend/friend.module';
 
 @Module({
   imports: [
@@ -28,6 +28,8 @@ import { FriendModule } from './modules/friend/friend.module';
     TypeOrmModule.forFeature(Object.values(entities)),
   ],
   controllers: [AppController],
-  providers: [AppService, DefaultMapper],
+  providers: [AppService, DefaultMapper, ],
 })
-export class AppModule {}
+export class AppModule {
+  
+}

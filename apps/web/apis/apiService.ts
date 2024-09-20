@@ -63,7 +63,7 @@ export const apiService: ApiServices = {
   put(url, payload) {
     return this.fetchData({
       url,
-      method: "patch",
+      method: "put",
       data: payload,
     });
   },

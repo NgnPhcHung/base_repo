@@ -22,6 +22,9 @@
       ],
       "@guards": [
         "src/guards"
+      ],
+      "@common": [
+        "src/common"
       ]
     },
     "incremental": true,

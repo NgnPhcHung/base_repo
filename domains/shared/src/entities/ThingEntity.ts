@@ -1,7 +1,9 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
+  InsertEvent,
   UpdateDateColumn,
 } from "typeorm";
 import { v4 as uuid } from "uuid";
@@ -14,7 +16,6 @@ export abstract class ThingEntity extends BaseEntity {
    * indicates the origin of the entry, is a GUID
    */
   @ApiProperty()
-  @AutoMap()
   @Column({ nullable: true, type: "uuid" })
   hash?: string;
 
@@ -24,15 +25,14 @@ export abstract class ThingEntity extends BaseEntity {
   @ApiProperty()
   @AutoMap()
   @Column({ nullable: true })
-  createdBy?: string;
+  createdBy?: number;
 
   /**
    * the user who updates the data
    */
   @ApiProperty()
-  @AutoMap()
   @Column({ nullable: true })
-  updatedBy?: string;
+  updatedBy?: number;
 
   /**
    * Flag to mark it as non-actual
@@ -58,5 +58,11 @@ export abstract class ThingEntity extends BaseEntity {
   @BeforeInsert()
   generateHash() {
     this.hash = uuid();
+  }
+
+  @BeforeInsert()
+  beforeInsert(event: any): void {
+    console.log("Attempting to log from beforeInsert in subscriber.");
+    console.log("From thign entity :66",event)
   }
 }

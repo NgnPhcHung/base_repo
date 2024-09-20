@@ -8,8 +8,8 @@ export const friendService = () => {
       return apiService.get<FriendRequest[]>("friends/requests");
     },
 
-    async acceptRequest(payload: FriendRequestUpdatingBody) {
-      return apiService.put<Friendship[]>("friends/request", payload);
+    async acceptRequest(id: number, payload: FriendRequestUpdatingBody) {
+      return apiService.put<Friendship[]>(`friends/request/${id}`, payload);
     },
   };
 };

@@ -2,7 +2,11 @@ import { createMap, forMember, mapFrom, Mapper } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { FriendRequestEntity, UserEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
-import { FriendRequest, User } from '@packages/models';
+import {
+  FriendRequest,
+  FriendRequestUpdatingBody,
+  User,
+} from '@packages/models';
 
 @Injectable()
 export class FriendRequestMapper extends AutomapperProfile {
@@ -18,9 +22,7 @@ export class FriendRequestMapper extends AutomapperProfile {
         FriendRequest,
         forMember(
           (data) => data.receiver,
-          mapFrom((source) =>
-            mapper.map(source.receiver, UserEntity, User),
-          ),
+          mapFrom((source) => mapper.map(source.receiver, UserEntity, User)),
         ),
         forMember(
           (data) => data.sender,

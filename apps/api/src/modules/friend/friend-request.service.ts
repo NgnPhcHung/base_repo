@@ -1,15 +1,20 @@
+import { BaseOrmService } from '@common';
 import { FriendRequestEntity, UserEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User, FriendRequestStatus } from '@packages/models';
-import { Repository } from 'typeorm';
+import { FriendRequestStatus, User } from '@packages/models';
+import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
-export class FriendRequestService {
+export class FriendRequestService extends BaseOrmService<FriendRequestEntity> {
   constructor(
     @InjectRepository(FriendRequestEntity)
     private repo: Repository<FriendRequestEntity>,
-  ) {}
+    entityManager: EntityManager,
+  ) {
+    super(FriendRequestEntity, entityManager);
+    this.repository = repo;
+  }
 
   async createFriendRequest(sender: UserEntity, receiver: UserEntity) {
     try {
@@ -19,7 +24,7 @@ export class FriendRequestService {
       });
       return await this.repo.save(friendRequest);
     } catch (error) {
-      throw new Error('Failed to create friend request: ' + error.message);
+      throw new Error('Failed to create friend request: ' + error);
     }
   }
 

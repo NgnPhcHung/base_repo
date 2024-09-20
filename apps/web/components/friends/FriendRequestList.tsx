@@ -6,7 +6,6 @@ import { Loading } from "../common";
 import { FriendRequestUpdatingBody } from "@repo/schemas";
 import { FriendRequestStatus } from "@/consts";
 
-
 export const FriendRequestList = () => {
   const friendApi = friendService();
 
@@ -16,12 +15,12 @@ export const FriendRequestList = () => {
   });
 
   const { mutate: handleAccept, isPending } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: async (data: FriendRequestUpdatingBody) => {
+    mutationKey: ["accept-request"],
+    mutationFn: async (data: FriendRequestUpdatingBody & { id: number }) => {
       if (!data.receiverId || !data.receiverId) {
         return;
       }
-      const res: any = await friendApi.acceptRequest(data);
+      const res: any = await friendApi.acceptRequest(data.id, data);
 
       // if (res) {
       //   saveToken(res);
@@ -43,6 +42,7 @@ export const FriendRequestList = () => {
             loading={isPending}
             onClick={() =>
               handleAccept({
+                id: request.id,
                 receiverId: request.receiver.id,
                 senderId: request.sender.id,
                 status: FriendRequestStatus.Accepted,

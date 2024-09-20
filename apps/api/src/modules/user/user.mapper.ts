@@ -23,7 +23,6 @@ export class UserMapper extends AutomapperProfile {
         UserEntity,
         User,
         forMember((d) => d.password, ignore()),
-        forMember((d) => d.hash, ignore()),
         forMember(
           (destination) => destination.fullName,
           mapFrom((source) => source.firstName + ' ' + source.lastName),

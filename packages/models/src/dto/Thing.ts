@@ -8,10 +8,6 @@ export class Thing {
 
   @ApiPropertyOptional()
   @AutoMap()
-  hash?: string;
-
-  @ApiPropertyOptional()
-  @AutoMap()
   isArchived?: boolean;
 
   @ApiPropertyOptional()

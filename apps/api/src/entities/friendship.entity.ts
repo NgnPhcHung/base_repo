@@ -8,10 +8,10 @@ export class FriendshipEntity extends ThingEntity {
   @ManyToOne(() => UserEntity, (user) => user.friendshipInitiated, {
     onDelete: 'CASCADE',
   })
-  initiator: UserEntity; // initiated the friendship
+  initiator: number; // initiated the friendship
 
   @ManyToOne(() => UserEntity, (user) => user.friendshipsReceived, {
     onDelete: 'CASCADE',
   })
-  friend: UserEntity; //response the friendship request
+  friend: number; //response the friendship request
 }
