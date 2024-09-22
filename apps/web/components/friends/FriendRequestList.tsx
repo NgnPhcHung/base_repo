@@ -4,10 +4,13 @@ import { Button } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loading } from "../common";
 import { FriendRequestUpdatingBody } from "@repo/schemas";
-import { FriendRequestStatus } from "@/consts";
+import { FriendEvents, FriendRequestStatus } from "@/consts";
+import { toast } from "../toast";
+import { queryClient, useSocket } from "@/providers";
 
 export const FriendRequestList = () => {
   const friendApi = friendService();
+  const { socket } = useSocket();
 
   const { data, isLoading } = useQuery({
     queryKey: ["list-friend-requests"],
@@ -16,17 +19,15 @@ export const FriendRequestList = () => {
 
   const { mutate: handleAccept, isPending } = useMutation({
     mutationKey: ["accept-request"],
-    mutationFn: async (data: FriendRequestUpdatingBody & { id: number }) => {
+    mutationFn: async (data: FriendRequestUpdatingBody) => {
       if (!data.receiverId || !data.receiverId) {
         return;
       }
-      const res: any = await friendApi.acceptRequest(data.id, data);
-
-      // if (res) {
-      //   saveToken(res);
-      //   router.push("/");
-      // }
+      return await friendApi.acceptRequest(data);
     },
+    onSuccess: () => toast.success("You have new friend"),
+    onError: () =>
+      toast.error("Can not accept this request, please try again!"),
   });
 
   if (isLoading) {
@@ -39,10 +40,9 @@ export const FriendRequestList = () => {
           <p>{request.sender.fullName}</p>
           <Button variant="outline">Reject</Button>
           <Button
-            loading={isPending}
             onClick={() =>
               handleAccept({
-                id: request.id,
+                requestId: request.id,
                 receiverId: request.receiver.id,
                 senderId: request.sender.id,
                 status: FriendRequestStatus.Accepted,

@@ -7,13 +7,15 @@ export const FriendList = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ["list-friend"],
-    queryFn: friendApi.getFriendRequestList,
+    queryFn: friendApi.getListFriend,
   });
+
 
   if (isLoading) {
     return <Loading />;
   }
 
   return <div className="w-72 h-full">
+    {data?.data && data.data}
   </div>;
 };

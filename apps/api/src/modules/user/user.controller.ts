@@ -33,7 +33,7 @@ export class UserController {
   @Read('/user', { dto: User })
   async findUser(@Query('username') username: string) {
     try {
-      const foundUser = await this.userService.findBy({
+      const foundUser = await this.userService.findByCondition({
         username,
         role: Not(Equal(UserRole.Admin)),
       });

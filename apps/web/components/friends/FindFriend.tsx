@@ -1,4 +1,4 @@
-import { YesNoButton } from "@/components";
+import { toast, YesNoButton } from "@/components";
 import { useSocket } from "@/providers";
 import { userService } from "@/services";
 import { currentUser } from "@/store";
@@ -25,15 +25,19 @@ export const FindFriend = () => {
     }
   };
 
-  const sendFriendRequest = () => {
+  const sendFriendRequest = async () => {
     socket?.emit("sendFriendRequest", {
       receiverId: foundUser?.id,
       senderId: user?.id,
     });
-    console.log({
-        receiverId: foundUser?.id,
-        senderId: user?.id,
-      })
+    socket?.on("friendRequestSent", () =>
+      toast.success(`Friend request sent to ${foundUser?.fullName}`)
+    );
+
+    // console.log({
+    //     receiverId: foundUser?.id,
+    //     senderId: user?.id,
+    //   })
   };
 
   return (

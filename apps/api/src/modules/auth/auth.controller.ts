@@ -47,7 +47,7 @@ export class AuthController {
   })
   async register(@Body() payload: UserCreationBody) {
     const user = this.mapper.map(payload, UserCreationBody, UserEntity);
-    const existingUser = await this.userService.findBy({
+    const existingUser = await this.userService.findByCondition({
       username: user.username,
     });
     if (existingUser) {
@@ -73,16 +73,17 @@ export class AuthController {
     const mappedUser = this.mapper.map(payload, UserLoginBody, UserEntity);
 
     try {
-      const user = await this.userService.findBy({
+      const user = await this.userService.findByCondition({
         username: mappedUser.username,
       });
       const { access_token, refresh_token } =
         await this.authService.login(user);
       this.authService.saveRefreshToken(user.id, refresh_token, SEVEN_DAYS);
       res.cookie('refreshToken', refresh_token, {
-        // httpOnly: true,
+        httpOnly: true,
         path: '/v1/api/auth/session/refresh',
-        // sameSite: 'strict',
+        sameSite:"strict",
+        secure: true,
       });
       return res.send(new SingleResult({ access_token }));
     } catch (error) {
@@ -95,17 +96,19 @@ export class AuthController {
   @Post('/session/refresh')
   async refreshAccessToken(@Req() req: ExpressRequest) {
     try {
-      const user = await this.authService.validateRefreshToken(
-        req.cookies['refreshToken'],
-      );
+      const refreshToken = req.cookies['refreshToken'];
+      if (!refreshToken) {
+        throw new ForbiddenException('Refresh token not provided');
+      }
+      const user = await this.authService.validateRefreshToken(refreshToken);
       if (!user) {
         throw new ForbiddenException('Token invalid');
       }
       const access_token = await this.authService.generateAccessToken(user);
-
       return new SingleResult({ access_token });
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      throw new ForbiddenException('Unable to refresh access token');
     }
   }
 }

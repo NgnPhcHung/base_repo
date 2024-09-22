@@ -1,10 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from 'src/entities';
 import { UserService } from 'src/modules/user/user.service';
 import { RedisService } from '../redis/redis.service';
-import { User } from '@packages/models';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +14,7 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findBy({ username });
+    const user = await this.userService.findByCondition({ username });
     if (!user) {
       return null;
     }

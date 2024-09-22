@@ -5,6 +5,10 @@ import { FriendRequestStatus } from "../consts";
 export class FriendRequestUpdatingBody {
   @AutoMap()
   @ApiProperty()
+  requestId!: number
+  
+  @AutoMap()
+  @ApiProperty()
   senderId!: number;
 
   @AutoMap()

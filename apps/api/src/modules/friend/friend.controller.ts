@@ -1,7 +1,7 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper, MapInterceptor } from '@automapper/nestjs';
 import { Authorization, CurrentUser, Read, Update } from '@decorators';
-import { FriendRequestEntity, FriendshipEntity } from '@entities';
+import { FriendRequestEntity, FriendshipEntity, UserEntity } from '@entities';
 import {
   Body,
   Controller,
@@ -17,9 +17,9 @@ import {
   PaginationResult,
   User,
 } from '@packages/models';
-import { ensurePromise } from '@packages/shared';
 import { UserService } from '../user/user.service';
 import { FriendRequestService } from './friend-request.service';
+import { FriendGateway } from './friend.gateway';
 import { FriendService } from './friend.service';
 import { FriendshipService } from './friendship.service';
 
@@ -30,6 +30,7 @@ export class FriendController {
   @InjectMapper() mapper: Mapper;
 
   constructor(
+    private friendGateway: FriendGateway,
     private readonly userService: UserService,
     private readonly friendService: FriendService,
     private readonly friendshipService: FriendshipService,
@@ -62,42 +63,33 @@ export class FriendController {
     @Body() payload: FriendRequestUpdatingBody,
   ) {
     try {
-      await ensurePromise(
-        this.userService.findBy({
-          id: payload.receiverId,
-        }),
-        'Receiver friend request not found',
+      const { userOne, userTwo } = await this.userService.createFriendship(
+        payload.senderId,
+        payload.receiverId,
       );
-      await ensurePromise(
-        this.userService.findBy({ id: payload.senderId }),
-        'Sender friend request not found',
-      );
-      await this.friendshipService.save(
-        this.mapper.map(payload, FriendRequestUpdatingBody, FriendshipEntity),
-      );
+
+      const fs = new FriendshipEntity();
+      fs.userOne = userOne;
+      fs.userTwo = userTwo;
+      await this.friendshipService.save(fs);
 
       await this.friendRequestService.update(
         { id },
         { status: payload.status },
       );
-
-      return true;
-
-      // await this.friendshipService.save(
-      //   this.mapper.map(
-      //     { friend: receiver, initiator: sender },
-      //     FriendshipEntity,
-      //     Friendship,
-      //   ),
-      // );
-      // return this.friendshipService.findAndCount({
-      //   where: [{ initiator: { id: user.id } }, { friend: { id: user.id } }],
-      // });
     } catch (error) {
       console.log(error);
       throw new UnprocessableEntityException(
         'Can not accept this request, please try again later',
       );
     }
+  }
+
+  @Read('/', { dto: PaginationResult<UserEntity> })
+  async getListFriend() {
+    const fs = await this.friendshipService.findAll({
+      relations: ['userOne', 'userTwo'],
+    });
+    return fs;
   }
 }

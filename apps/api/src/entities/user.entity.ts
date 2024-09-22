@@ -2,7 +2,7 @@ import { AutoMap } from '@automapper/classes';
 import { ThingEntity } from '@domains/shared';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '@packages/models';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, OneToMany } from 'typeorm';
 import { FriendRequestEntity } from './friend-request.entity';
 import { FriendshipEntity } from './friendship.entity';
 import { SettingEntity } from './setting.entity';
@@ -48,16 +48,18 @@ export class UserEntity extends ThingEntity {
   @AutoMap()
   receivedFriendRequests?: FriendRequestEntity[];
 
-  @OneToMany(
-    () => FriendshipEntity,
-    (friendship) => friendship.initiator,
-  )
-  @ApiPropertyOptional()
-  @AutoMap()
-  friendshipInitiated: FriendshipEntity[];
+  // @OneToMany(
+  //   () => FriendshipEntity,
+  //   (friendship) => friendship.userOne,
+  // )
+  // @ApiPropertyOptional()
+  // @AutoMap()
+  // @JoinTable()
+  // userOne: FriendshipEntity[];
 
-  @OneToMany(() => FriendshipEntity, (friendship) => friendship.friend)
+  @OneToMany(() => FriendshipEntity, (friendship) => friendship.userTwo)
   @ApiPropertyOptional()
   @AutoMap()
-  friendshipsReceived: FriendshipEntity[];
+  @JoinTable()
+  userTwo: FriendshipEntity[];
 }

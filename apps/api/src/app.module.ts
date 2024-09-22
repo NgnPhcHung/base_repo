@@ -1,5 +1,6 @@
 import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
+import { ThingEntity } from '@domains/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -26,10 +27,9 @@ import { DefaultMapper } from './utils';
       strategyInitializer: classes(),
     }),
     TypeOrmModule.forFeature(Object.values(entities)),
+    TypeOrmModule.forFeature([ThingEntity]),
   ],
   controllers: [AppController],
-  providers: [AppService, DefaultMapper, ],
+  providers: [AppService, DefaultMapper],
 })
-export class AppModule {
-  
-}
+export class AppModule {}

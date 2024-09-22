@@ -3,6 +3,7 @@ import {
   BeforeUpdate,
   Column,
   CreateDateColumn,
+  Generated,
   InsertEvent,
   UpdateDateColumn,
 } from "typeorm";

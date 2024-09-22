@@ -9,6 +9,7 @@ import { FriendGateway } from './friend.gateway';
 import { FriendService } from './friend.service';
 import { FriendshipMapper } from './friendship.mapper';
 import { FriendshipService } from './friendship.service';
+import { UserMapper } from '../user/user.mapper';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FriendshipService } from './friendship.service';
     ]),
   ],
   providers: [
+    UserMapper,
     UserService,
     UserService,
     FriendGateway,

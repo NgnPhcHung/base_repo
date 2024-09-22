@@ -6,17 +6,19 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const router = useRouter();
 
+  
+
   useEffect(() => {
-    const token = sessionStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
     setIsAuthenticated(!!token);
   }, []);
 
   const saveToken = (data?: ISingleResult<{ access_token: string }>) => {
     if (data?.data?.access_token) {
-      sessionStorage.setItem("access_token", data.data.access_token);
+      localStorage.setItem("access_token", data.data.access_token);
       return;
     }
-    router.push("/auth/login");
+    // router.push("/auth/login");
   };
 
   return {

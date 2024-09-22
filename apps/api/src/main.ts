@@ -4,13 +4,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
-import * as  fs from "fs";
+import * as fs from 'fs';
 
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   const logger = new Logger();
   app.useGlobalPipes(
     new ValidationPipe({
@@ -30,7 +30,7 @@ async function bootstrap() {
     credentials: true,
     optionsSuccessStatus: 204,
     allowedHeaders:
-      'Content-Type, Accept, Authorization, X-Requested-With, Application',
+      'Content-Type, Accept, Authorization, X-Requested-With, Application, refreshtoken', 
   });
 
   const config = new DocumentBuilder()
@@ -44,7 +44,10 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {});
-  fs.writeFileSync('../../schemas/src/swagger-schema.json', JSON.stringify(document));
+  fs.writeFileSync(
+    '../../schemas/src/swagger-schema.json',
+    JSON.stringify(document),
+  );
 
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: { basePath: '/v1/api' },

@@ -31,7 +31,6 @@ export const SocketIOProvider: React.FC<SocketProviderProps> = ({
 }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const handleError = useCallback((error: any) => {
-    console.error(error.message);
     toast.error(error.message);
   }, []);
 

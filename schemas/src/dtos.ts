@@ -37,6 +37,7 @@ export interface PaginationResult {
 }
 
 export interface FriendRequestUpdatingBody {
+  requestId: number;
   senderId: number;
   receiverId: number;
   status: "Pending" | "Accepted" | "Rejected";

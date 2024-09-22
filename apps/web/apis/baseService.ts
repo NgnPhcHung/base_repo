@@ -20,7 +20,7 @@ export const baseService = axios.create({
 
 baseService.interceptors.request.use(
   async (config) => {
-    const token = sessionStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -44,40 +44,35 @@ baseService.interceptors.response.use(
         originalRequest._retry = true;
 
         try {
-          const token = sessionStorage.getItem("access_token");
-          config.headers["refreshToken"] = `Bearer ${token}`;
           const res = await axios.post(
-            "http://localhost:3456/v1/api/auth/session/refresh",{},
+            "http://localhost:3456/v1/api/auth/session/refresh",
+            {},
             {
-              ...config,
-
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
               withCredentials: true,
             }
           );
+
           if (res.status === 201) {
             const { access_token } = res.data.data;
-            console.log(res.data);
-            sessionStorage.setItem("access_token", access_token);
+            localStorage.setItem("access_token", access_token);
             baseService.defaults.headers.common["Authorization"] =
               `Bearer ${access_token}`;
-            onAccessTokenFetched(access_token);
+            onAccessTokenFetched(access_token); 
             isRefreshing = false;
+
             return baseService(originalRequest);
           }
         } catch (refreshError) {
           isRefreshing = false;
-          subscribers = [];
-          window.location.href = '/auth/login';
+          subscribers = []; 
+          window.location.href = "/auth/login"; 
           return Promise.reject(refreshError);
         }
       } else {
         return new Promise((resolve) => {
           addSubscriber((accessToken: string) => {
             originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
-            resolve(baseService(originalRequest));
+            resolve(baseService(originalRequest)); 
           });
         });
       }

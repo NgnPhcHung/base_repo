@@ -27,8 +27,8 @@ export abstract class BaseOrmService<T> {
     this.repository = this.entityManager.getRepository(entityClass);
   }
 
-  findAll(): Promise<T[]> {
-    return this.repository.find();
+  findAll(options?: FindManyOptions<T>): Promise<T[]> {
+    return this.repository.find(options);
   }
 
   findOne(findConditions: FindOneOptions<T>): Promise<T | undefined> {

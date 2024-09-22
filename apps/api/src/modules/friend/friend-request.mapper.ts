@@ -29,6 +29,7 @@ export class FriendRequestMapper extends AutomapperProfile {
           mapFrom((source) => mapper.map(source.sender, UserEntity, User)),
         ),
       );
+      createMap(mapper, UserEntity, User);
     };
   }
 }
