@@ -17,19 +17,19 @@ export class FriendshipMapper extends AutomapperProfile {
 
   override get profile() {
     return (mapper: Mapper) => {
-      // createMap(
-      //   mapper,
-      //   FriendRequestUpdatingBody,
-      //   FriendshipEntity,
-      //   forMember(
-      //     (data) => data.friend,
-      //     mapFrom((source) => source.receiverId),
-      //   ),
-      //   forMember(
-      //     (data) => data.initiator,
-      //     mapFrom((source) => source.senderId),
-      //   ),
-      // );
+      createMap(
+        mapper,
+        FriendshipEntity,
+        Friendship,
+        forMember(
+          (data) => data.userOne,
+          mapFrom((source) => mapper.map(source.userOne, UserEntity, User)),
+        ),
+        forMember(
+          (data) => data.useTwo,
+          mapFrom((source) => mapper.map(source.userTwo, UserEntity, User)),
+        ),
+      );
 
       createMap(
         mapper,

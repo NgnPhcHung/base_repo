@@ -6,9 +6,9 @@ import { User } from "./User";
 export class Friendship extends Thing {
   @ApiProperty()
   @AutoMap()
-  initiator!: number;
+  userOne!: User;
 
   @ApiProperty()
   @AutoMap()
-  friend!: number;
+  useTwo!: User;
 }

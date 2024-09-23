@@ -43,11 +43,10 @@ export class FriendController {
     MapInterceptor(FriendRequestEntity, FriendRequest, { isArray: true }),
   )
   async getListFriendRequest(@CurrentUser() user: User) {
-    const [listRequest, total] =
-      await this.friendRequestService.getListRequest(user);
+    const [data, total] = await this.friendRequestService.getListRequest(user);
 
     return new PaginationResult(
-      this.mapper.mapArray(listRequest, FriendRequestEntity, FriendRequest),
+      this.mapper.mapArray(data, FriendRequestEntity, FriendRequest),
       total,
       0,
       20,
@@ -85,11 +84,32 @@ export class FriendController {
     }
   }
 
-  @Read('/', { dto: PaginationResult<UserEntity> })
-  async getListFriend() {
-    const fs = await this.friendshipService.findAll({
+  @Read('/', { dto: PaginationResult<FriendshipEntity> })
+  @UseInterceptors(
+    MapInterceptor(FriendshipEntity, Friendship, { isArray: true }),
+  )
+  async getListFriend(@CurrentUser() user: User) {
+    const { data, count } = await this.friendshipService.findAndCount({
       relations: ['userOne', 'userTwo'],
+      where: [
+        {
+          userOne: {
+            id: user.id,
+          },
+        },
+        {
+          userTwo: {
+            id: user.id,
+          },
+        },
+      ],
     });
-    return fs;
+
+    return new PaginationResult(
+      this.mapper.mapArray(data, FriendshipEntity, Friendship),
+      count,
+      0,
+      20,
+    );
   }
 }

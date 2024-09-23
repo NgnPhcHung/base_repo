@@ -1,6 +1,7 @@
 "use client";
 import { Header, Loading, Sidebar, toast } from "@/components";
 import { sidebarItem } from "@/components/sidebar/sidebarItem";
+import { FriendEvents } from "@/consts";
 import { useAuth } from "@/hooks";
 import { queryClient, useSocket } from "@/providers";
 import { friendService, userService } from "@/services";
@@ -20,8 +21,8 @@ export default function MainLayout({ children }: PropsWithChildren) {
     setUser: state.setUser,
   }));
   const userApi = userService();
-  const friendApi  = friendService();
-  
+  const friendApi = friendService();
+
   const { isAuthenticated } = useAuth();
   const { socket } = useSocket();
 
@@ -57,9 +58,14 @@ export default function MainLayout({ children }: PropsWithChildren) {
   socket?.on("connect", () => {
     socket.emit("joinRoom", { room: data?.data?.id });
   });
-  socket?.on("receiveFriendRequest", () => {
+  socket?.on(FriendEvents.ReceiveFriendRequest, () => {
     toast.info("You have new friend request!");
     queryClient.invalidateQueries({ queryKey: ["list-friend-requests"] });
+  });
+
+  socket?.on(FriendEvents.AcceptFriendRequest, () => {
+    toast.info("You have new friend request!");
+    queryClient.invalidateQueries({ queryKey: ["list-friend"] });
   });
 
   return (

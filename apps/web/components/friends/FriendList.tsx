@@ -4,7 +4,6 @@ import { Loading } from "../common";
 
 export const FriendList = () => {
   const friendApi = friendService();
-
   const { data, isLoading } = useQuery({
     queryKey: ["list-friend"],
     queryFn: friendApi.getListFriend,
@@ -15,7 +14,9 @@ export const FriendList = () => {
     return <Loading />;
   }
 
-  return <div className="w-72 h-full">
-    {data?.data && data.data}
-  </div>;
+  return (
+    <div className="w-72 h-full">
+      {data && data.map((f) => f.fullName)}
+    </div>
+  );
 };
