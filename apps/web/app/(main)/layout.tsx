@@ -85,7 +85,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
         <Sidebar items={sidebarItem} />
       </AppShell.Navbar>
       <AppShell.Main>
-        <div className="p-10">{children}</div>
+        <div className="p-10 mt-[80px]">{children}</div>
       </AppShell.Main>
     </AppShell>
   );

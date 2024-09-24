@@ -1,20 +1,21 @@
+"use client";
 import { currentUser } from "@/store";
 import { Avatar } from "@mantine/core";
-import Link from "next/link";
 
-export const Header = () => {
+export default function MePage() {
   const { user } = currentUser((state) => ({ user: state.user }));
 
   return (
-    <Link href={'/me'}>
-      <div className="p-4">
-        <Avatar color="blue" radius="xl">
+    <div>
+      <div className="flex items-center space-x-6">
+        <Avatar color="blue" size="xl">
           {user?.fullName
             ?.split(" ")
             .map((word) => word[0])
             .join("")}
         </Avatar>
+        <p className="font-semibold">{user?.fullName}</p>
       </div>
-    </Link>
+    </div>
   );
-};
+}
