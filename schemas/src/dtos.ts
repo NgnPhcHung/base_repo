@@ -3,16 +3,15 @@ export interface UserCreationBody {
   lastName: string;
   username: string;
   password: string;
-  role: "admin" | "user";
-}
+  role: 'admin' | 'user';
+  }
 
 export interface SingleResult {
-  data: {};
-}
+  data: {  };
+  }
 
 export interface User {
   id: number;
-  hash?: string;
   isArchived?: boolean;
   dateCreate?: Date;
   dateUpdate?: Date;
@@ -21,24 +20,25 @@ export interface User {
   firstName: string;
   lastName: string;
   fullName?: string;
-  role: "admin" | "user";
-}
+  role: 'admin' | 'user';
+  }
 
 export interface UserLoginBody {
   username: string;
   password: string;
-}
+  }
 
 export interface PaginationResult {
-  data: {}[][];
+  data: {  }[][];
   total: number;
   page: number;
   limit: number;
-}
+  }
 
 export interface FriendRequestUpdatingBody {
   requestId: number;
   senderId: number;
   receiverId: number;
-  status: "Pending" | "Accepted" | "Rejected";
-}
+  status: 'Pending' | 'Accepted' | 'Rejected';
+  }
+

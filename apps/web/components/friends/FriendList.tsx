@@ -9,7 +9,6 @@ export const FriendList = () => {
     queryFn: friendApi.getListFriend,
   });
 
-
   if (isLoading) {
     return <Loading />;
   }

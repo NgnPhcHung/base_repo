@@ -7,7 +7,9 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "gen:types": "ts-node ./cli/src/typescriptConverter.ts ",
+    "gen:consts": "ts-node ./cli/src/combineConsts.ts --esModuleInterop",
+    "gen:dto": "ts-node ./cli/src/convertInputDTO.ts",
+    "gen:types": "ts-node ./cli/src/typescriptConverter.ts & pnpm gen:consts & pnpm gen:dto",
     "gen:swagger": "ts-node ./cli/src/zodConverter.ts"
   },
   "devDependencies": {
