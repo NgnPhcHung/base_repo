@@ -1,3 +1,4 @@
+export * from "./CategoryStatus";
 export * from "./FriendEvents";
 export * from "./FriendRequestStatus";
 export * from "./InventoryStatus";

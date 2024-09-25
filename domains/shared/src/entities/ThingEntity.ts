@@ -60,10 +60,4 @@ export abstract class ThingEntity extends BaseEntity {
   generateHash() {
     this.hash = uuid();
   }
-
-  @BeforeInsert()
-  beforeInsert(event: any): void {
-    console.log("Attempting to log from beforeInsert in subscriber.");
-    console.log("From thign entity :66",event)
-  }
 }
