@@ -1,7 +1,6 @@
-import { FriendRequestEntity, UserEntity } from '@entities';
+import { FriendRequestEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FriendRequestStatus, User } from '@packages/models';
 import { Repository } from 'typeorm';
 
 @Injectable()

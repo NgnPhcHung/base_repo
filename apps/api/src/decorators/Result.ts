@@ -1,4 +1,9 @@
-import { ManyResult, PaginationResult, SingleResult } from '@packages/models';
+import {
+  ManyResult,
+  Pageable,
+  PaginationResult,
+  SingleResult,
+} from '@packages/models';
 
 export class Result {
   static single<T>(data: T): SingleResult<T> {
@@ -12,16 +17,12 @@ export class Result {
   static multiple<T>(
     data: T[],
     total: number,
-    paging?: { offset: number; limit: number },
+    paging?: Pageable,
   ): PaginationResult<T>;
   static multiple<T>(data: T[]): ManyResult<T>;
-  static multiple<T>(
-    data: T[],
-    total?: number,
-    paging?: { offset: number; limit: number },
-  ) {
+  static multiple<T>(data: T[], total?: number, paging?: Pageable) {
     if (total && paging) {
-      return new PaginationResult(data, total, paging.offset, paging.limit);
+      return new PaginationResult(data, total, paging);
     } else {
       return new ManyResult(data, data.length);
     }

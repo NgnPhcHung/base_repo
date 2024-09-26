@@ -101,23 +101,29 @@
   "PaginationResult": {
     "type": "object",
     "properties": {
+      "limit": {
+        "type": "number"
+      },
+      "sortDirection": {
+        "type": "enum",
+        "values": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "cursor": {
+        "type": "number"
+      },
       "data": {
         "type": "array",
         "items": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {}
-          }
+          "type": "string"
         }
       },
       "total": {
-        "type": "number"
-      },
-      "page": {
-        "type": "number"
-      },
-      "limit": {
         "type": "number"
       }
     }

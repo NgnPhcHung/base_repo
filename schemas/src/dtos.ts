@@ -29,10 +29,12 @@ export interface UserLoginBody {
   }
 
 export interface PaginationResult {
-  data: {  }[][];
-  total: number;
-  page: number;
   limit: number;
+  sortDirection: 'ASC' | 'DESC';
+  sortBy: string;
+  cursor: number;
+  data: string[];
+  total: number;
   }
 
 export interface FriendRequestUpdatingBody {

@@ -1,23 +1,23 @@
+import { AutoMap } from "@automapper/classes";
 import { ApiProperty } from "@nestjs/swagger";
 import { IPaginationResult } from "./IPaginationResult";
-import { ManyResult } from "./ManyResult";
-import { AutoMap } from "@automapper/classes";
+import { Pageable } from "./Pageable";
 
 export class PaginationResult<T>
-  extends ManyResult<T>
+  extends Pageable
   implements IPaginationResult<T>
 {
-  @ApiProperty({ example: 1, description: "Current page number" })
+  @ApiProperty()
   @AutoMap()
-  page: number;
+  data!: T[];
 
-  @ApiProperty({ example: 10, description: "Number of items per page" })
+  @ApiProperty()
   @AutoMap()
-  limit: number;
+  total: number = 0;
 
-  constructor(data: T[], total: number, page: number, limit: number) {
-    super(data, total);
-    this.page = page;
-    this.limit = limit;
+  constructor(data: T[], total: number, pageable: Pageable) {
+    super(pageable);
+    this.data = data;
+    this.total = total;
   }
 }

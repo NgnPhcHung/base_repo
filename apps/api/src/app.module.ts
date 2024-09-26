@@ -10,6 +10,7 @@ import { DatabaseModule } from './database/database.module';
 import * as entities from './entities';
 import { AuthModule, UserModule } from './modules';
 import { FriendModule } from './modules/friend/friend.module';
+import { LocationModule } from './modules/location/location.module';
 import { RedisAppModule } from './modules/redis';
 import { DefaultMapper } from './utils';
 
@@ -20,6 +21,7 @@ import { DefaultMapper } from './utils';
     UserModule,
     RedisAppModule,
     FriendModule,
+    LocationModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

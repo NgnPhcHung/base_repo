@@ -1,26 +1,27 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper, MapInterceptor } from '@automapper/nestjs';
 import { Authorization, CurrentUser, Read, Update } from '@decorators';
-import { FriendRequestEntity, FriendshipEntity, UserEntity } from '@entities';
+import { FriendRequestEntity, FriendshipEntity } from '@entities';
 import {
   Body,
   Controller,
   Param,
+  Query,
   UnprocessableEntityException,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   FriendRequest,
+  FriendRequestFilterParams,
   FriendRequestUpdatingBody,
   Friendship,
+  LocationQueryParams,
   PaginationResult,
   User,
 } from '@packages/models';
 import { UserService } from '../user/user.service';
 import { FriendRequestService } from './friend-request.service';
-import { FriendGateway } from './friend.gateway';
-import { FriendService } from './friend.service';
 import { FriendshipService } from './friendship.service';
 
 @ApiTags('Friends')
@@ -30,9 +31,7 @@ export class FriendController {
   @InjectMapper() mapper: Mapper;
 
   constructor(
-    private friendGateway: FriendGateway,
     private readonly userService: UserService,
-    private readonly friendService: FriendService,
     private readonly friendshipService: FriendshipService,
     private readonly friendRequestService: FriendRequestService,
   ) {}
@@ -42,14 +41,16 @@ export class FriendController {
   @UseInterceptors(
     MapInterceptor(FriendRequestEntity, FriendRequest, { isArray: true }),
   )
-  async getListFriendRequest(@CurrentUser() user: User) {
+  async getListFriendRequest(
+    @CurrentUser() user: User,
+    @Query() query: FriendRequestFilterParams,
+  ) {
     const [data, total] = await this.friendRequestService.getListRequest(user);
 
     return new PaginationResult(
       this.mapper.mapArray(data, FriendRequestEntity, FriendRequest),
       total,
-      0,
-      20,
+      query,
     );
   }
 
@@ -88,7 +89,10 @@ export class FriendController {
   @UseInterceptors(
     MapInterceptor(FriendshipEntity, Friendship, { isArray: true }),
   )
-  async getListFriend(@CurrentUser() user: User) {
+  async getListFriend(
+    @CurrentUser() user: User,
+    @Query() query: LocationQueryParams,
+  ) {
     const { data, count } = await this.friendshipService.findAndCount({
       relations: ['userOne', 'userTwo'],
       where: [
@@ -108,8 +112,7 @@ export class FriendController {
     return new PaginationResult(
       this.mapper.mapArray(data, FriendshipEntity, Friendship),
       count,
-      0,
-      20,
+      query,
     );
   }
 }
