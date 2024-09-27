@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import {
   DeepPartial,
   EntityManager,
@@ -8,23 +8,21 @@ import {
   FindOptionsWhere,
   Repository,
   SaveOptions,
-} from "typeorm";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-
-interface UserContext {
-  id: number;
-}
+} from 'typeorm';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 @Injectable()
 export abstract class BaseOrmService<T> {
   protected repository: Repository<T>;
-  protected ctx: any;
+  protected defaultSortField: keyof T;
 
   constructor(
     entityClass: EntityTarget<T>,
-    protected readonly entityManager: EntityManager
+    protected readonly entityManager: EntityManager,
+    defaultSortField?: keyof T,
   ) {
     this.repository = this.entityManager.getRepository(entityClass);
+    this.defaultSortField = defaultSortField || ('id' as keyof T);
   }
 
   findAll(options?: FindManyOptions<T>): Promise<T[]> {
@@ -55,12 +53,12 @@ export abstract class BaseOrmService<T> {
 
   save(
     entityOrEntities: DeepPartial<T> | DeepPartial<T>[],
-    options?: SaveOptions
+    options?: SaveOptions,
   ): Promise<T | T[]> {
     if (Array.isArray(entityOrEntities)) {
       return this.repository.save(
         entityOrEntities as DeepPartial<T>[],
-        options
+        options,
       );
     } else {
       return this.repository.save(entityOrEntities as DeepPartial<T>, options);
@@ -77,8 +75,19 @@ export abstract class BaseOrmService<T> {
     return this.findAndCount(options);
    */
   async findAndCount(
-    options: FindManyOptions<T>
+    options: FindManyOptions<T> & { cursor?: number },
   ): Promise<{ data: T[]; count: number }> {
+    if(!!options.cursor){
+      options.cursor = options.cursor < 1 ? 1 :options.cursor
+    }
+
+    if (!!options.cursor) {
+      options.skip = (options.cursor - 1 || 1) * options.take;
+    }
+    if (!options.order) {
+      (options.order as Record<string, string>).id = 'ASC';
+    }
+
     const [result, total] = await this.repository.findAndCount(options);
     return { data: result, count: total };
   }

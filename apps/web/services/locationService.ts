@@ -1,10 +1,10 @@
 import { apiService } from "@/apis";
-import { Province } from "@packages/models";
+import { Province, ProvinceFilterParam } from "@packages/models";
 
 export const LocationService = () => {
   return {
-    async getListProvince() {
-      return apiService.get<Province[]>("location/provinces");
+    async getListProvince(payload: ProvinceFilterParam) {
+      return apiService.get<Province[]>("location/provinces", payload);
     },
   };
 };

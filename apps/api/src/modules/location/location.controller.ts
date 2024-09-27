@@ -6,6 +6,7 @@ import {
   LocationQueryParams,
   PaginationResult,
   Province,
+  ProvinceFilterParam,
   Ward,
 } from '@packages/models';
 import { LocationService } from './location.service';
@@ -26,10 +27,10 @@ export class LocationController {
   }
 
   @Read('/provinces', {
-    inputDto: LocationQueryParams,
+    inputDto: ProvinceFilterParam,
     dto: PaginationResult<Province>,
   })
-  async getListProvince(@Query() query: LocationQueryParams) {
+  async getListProvince(@Query() query: ProvinceFilterParam) {
     const { data, count } = await this.locationService.getListProvince(query);
 
     return new PaginationResult(data, count, query);

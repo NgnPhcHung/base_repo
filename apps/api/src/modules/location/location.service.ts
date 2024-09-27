@@ -13,13 +13,13 @@ export class LocationService {
   ) {}
 
   async getListDistrict({
-    skip,
     limit,
     sortBy,
     sortDirection,
+    cursor,
   }: LocationQueryParams) {
     return this.districtService.findAndCount({
-      skip: skip,
+      cursor: cursor,
       take: limit,
       order: {
         [sortBy]: sortDirection,
@@ -28,13 +28,13 @@ export class LocationService {
   }
 
   async getListWard({
-    skip,
     limit,
     sortBy,
     sortDirection,
+    cursor,
   }: LocationQueryParams) {
     return this.wardService.findAndCount({
-      skip: skip,
+      cursor: cursor,
       take: limit,
       order: {
         [sortBy]: sortDirection,
@@ -43,14 +43,13 @@ export class LocationService {
   }
 
   async getListProvince({
-    skip,
     limit,
     sortBy,
     sortDirection,
+    cursor,
   }: LocationQueryParams) {
-
     return await this.provinceService?.findAndCount({
-      skip: skip,
+      cursor: cursor,
       take: limit,
       order: {
         [sortBy]: sortDirection,

@@ -1,23 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Pageable } from "../dto/Pageable";
+import { District, Province, Ward } from "../dto";
 
 export class LocationQueryParams extends Pageable {
-    @ApiProperty()
-    provinceId?: number
+  @ApiProperty()
+  province?: Partial<Province>;
 
-    @ApiProperty()
-    wardId?: number
+  @ApiProperty()
+  ward?: Partial<Ward>;
 
-    @ApiProperty()
-    districtId?: number
-
-    @ApiProperty()
-    provinceName?: string
-    
-    @ApiProperty()
-    wardName?: string
-    
-    @ApiProperty()
-    districtName?: string
-
+  @ApiProperty()
+  district?: Partial<District>;
 }
