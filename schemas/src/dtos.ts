@@ -44,3 +44,22 @@ export interface FriendRequestUpdatingBody {
   status: 'Pending' | 'Accepted' | 'Rejected';
   }
 
+export interface LocationQueryParams {
+  limit: number;
+  sortDirection: 'ASC' | 'DESC';
+  sortBy: string;
+  cursor: number;
+  province: {  };
+  ward: {  };
+  district: {  };
+  }
+
+export interface ProvinceFilterParam {
+  limit: number;
+  sortDirection: 'ASC' | 'DESC';
+  sortBy: string;
+  cursor: number;
+  name: string;
+  code: number;
+  }
+

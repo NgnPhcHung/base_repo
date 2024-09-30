@@ -3,7 +3,7 @@ import { ThingEntity } from '@domains/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { InventoryStatus } from '@packages/models';
 import Property from 'src/decorators/Property';
-import { Entity, Index, ManyToOne } from 'typeorm';
+import { Entity, Index, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 import { CategoryEntity } from './category.entity';
 import { UserEntity } from './user.entity';
 
@@ -33,7 +33,9 @@ export class InventoryEntity extends ThingEntity {
   @ApiProperty({ type: CategoryEntity })
   category: CategoryEntity;
 
-  @ManyToOne(() => UserEntity, (user) => user.settings, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UserEntity, user => user.inventories, {
+    onDelete: 'CASCADE',
+  })
   @ApiProperty()
   @AutoMap()
   user!: UserEntity;

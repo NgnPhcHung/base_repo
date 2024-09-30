@@ -10,9 +10,11 @@ import { DatabaseModule } from './database/database.module';
 import * as entities from './entities';
 import { AuthModule, UserModule } from './modules';
 import { FriendModule } from './modules/friend/friend.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 import { LocationModule } from './modules/location/location.module';
 import { RedisAppModule } from './modules/redis';
 import { DefaultMapper } from './utils';
+import { DiscountModule } from './modules/discount/discount.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { DefaultMapper } from './utils';
     RedisAppModule,
     FriendModule,
     LocationModule,
+    InventoryModule,
+    DiscountModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

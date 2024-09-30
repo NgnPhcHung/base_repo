@@ -24,7 +24,12 @@ export class PlaceSeeder implements Seeder {
         name: provinceData.Name,
         code: provinceData.Code,
       });
-      await provinceRepository.save(province);
+      const existingProvince = provinceRepository.findOneBy({
+        name: provinceData.Name,
+      });
+      // if (!existingProvince) {
+        await provinceRepository.save(province);
+      // }
 
       for (const districtData of provinceData.District) {
         const district = districtRepository.create({
@@ -32,15 +37,26 @@ export class PlaceSeeder implements Seeder {
           code: districtData.Code,
           province: province,
         });
-        await districtRepository.save(district);
+        const existingDistrict = districtRepository.findOneBy({
+          name: districtData.Name,
+        });
+        // if (!existingDistrict) {
+          await districtRepository.save(district);
+        // }
 
         for (const wardData of districtData.Ward) {
           const ward = wardRepository.create({
             name: wardData.Name,
             code: wardData.Code,
-            district: district, 
+            district: district,
           });
-          await wardRepository.save(ward);
+
+          // const existingWard = wardRepository.findOneBy({
+          //   name: wardData.Name,
+          // });
+          // if (!existingWard) {
+            await wardRepository.save(ward);
+          // }
         }
       }
     }

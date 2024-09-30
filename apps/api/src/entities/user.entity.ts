@@ -1,12 +1,12 @@
 import { AutoMap } from '@automapper/classes';
 import { ThingEntity } from '@domains/shared';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { UserRole } from '@packages/models';
 import { Column, Entity, JoinTable, OneToMany } from 'typeorm';
 import { FriendRequestEntity } from './friend-request.entity';
 import { FriendshipEntity } from './friendship.entity';
-import { SettingEntity } from './setting.entity';
 import { UserLocationEntity } from './user-location.entity';
+import { UserRole } from '@packages/models';
+import { InventoryEntity } from './inventory.entity';
 @Entity()
 export class UserEntity extends ThingEntity {
   @Column({ unique: true })
@@ -34,11 +34,6 @@ export class UserEntity extends ThingEntity {
   @AutoMap()
   role!: UserRole;
 
-  @OneToMany(() => SettingEntity, (setting) => setting.user, { cascade: true })
-  @ApiPropertyOptional({ nullable: true })
-  @AutoMap()
-  settings?: SettingEntity[];
-
   @OneToMany(() => FriendRequestEntity, (friendship) => friendship.sender)
   @ApiPropertyOptional()
   @AutoMap()
@@ -57,4 +52,7 @@ export class UserEntity extends ThingEntity {
 
   @OneToMany(() => UserLocationEntity, (userLocation) => userLocation.user)
   locations: UserLocationEntity[];
+
+  @OneToMany(() => InventoryEntity, (inventory) => inventory.user)
+  inventories: InventoryEntity[];
 }

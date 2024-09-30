@@ -18,7 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         autoLoadEntities: true,
         synchronize: true,
         entities: ['dist/src/entities/*.js'],
-        logging: config.get('DB_LOG'),
+        logging: ["error"],
         retryAttempts: 10,
         retryDelay: 3000,
       }),

@@ -9,6 +9,7 @@ import { useCallback, useMemo } from "react";
 // @ts-ignore
 import urlcat from "urlcat";
 import { qs } from "./qs";
+import { Pageable } from "@packages/models";
 
 type UseFilterHookResponse<T extends { [key: string]: any }> = Readonly<
   [
@@ -47,7 +48,7 @@ const removeEmptyKey = <T extends { [key: string]: any }>(data: T) => {
 
 export const useFilterQuery = <T extends { [key: string]: any }>(
   searchTarget: string,
-  initialData: Partial<T>
+  initialData: Partial<T> & Pageable
 ) => {
   const defaultFilter = initialData || {};
   const params = useParams();

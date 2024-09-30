@@ -1,7 +1,8 @@
+
+
 import { currentUser } from "@/store";
 import { Burger, NavLink } from "@mantine/core";
 import clsx from "clsx";
-import { usePathname, useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 export interface SidebarItem {
@@ -37,19 +38,21 @@ export const Sidebar = ({ items, classNames }: SidebarProps) => {
         opened={isSidebarOpened}
         size="sm"
       />
-      {items.map((item) => (
-        <NavLink
-          key={item.label}
-          href={item.url}
-          leftSection={isSidebarOpened ? item.expandIcon : item.collapseIcon}
-          label={isSidebarOpened ? item.label : undefined}
-          // active={currentPage === item.url}
-          className={clsx(!isSidebarOpened && "flex items-center")}
-          classNames={{
-            label: "font-semibold text-lg",
-          }}
-        />
-      ))}
+      <div>
+        {items.map((item) => (
+          <NavLink
+            key={item.label}
+            href={item.url}
+            leftSection={isSidebarOpened ? item.expandIcon : item.collapseIcon}
+            label={isSidebarOpened ? item.label : undefined}
+            // active={currentPage === item.url}
+            className={clsx(!isSidebarOpened && "flex items-center")}
+            classNames={{
+              label: "font-semibold text-lg",
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };

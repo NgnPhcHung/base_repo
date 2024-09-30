@@ -1,0 +1,7 @@
+id,title,status,description,hash,createdBy,updatedBy,isArchived,dateCreate,dateUpdate,parentId
+1,Engines,Unused,Category for various ship parts,b649d4b0-44c7-4580-8fe9-7729ff525dbf,5,5,False,2024-09-29 10:40:06.841102,2024-09-29 10:40:06.841621,
+2,Propulsion,Unused,Category for various ship parts,2ed6c77e-f31d-4451-a31b-31f7b5203b87,4,4,False,2024-09-29 10:40:06.841102,2024-09-29 10:40:06.841621,
+3,Structure,Unused,Category for various ship parts,d3d459f5-42ee-488c-a121-d4df0ac4a271,4,4,False,2024-09-29 10:40:06.841102,2024-09-29 10:40:06.841621,1.0
+4,Deck,Unused,Category for various ship parts,31bc3e55-6408-42b4-93c8-52481c43e712,3,3,False,2024-09-29 10:40:06.841102,2024-09-29 10:40:06.841621,
+5,Navigation,Unused,Category for various ship parts,7e0bc1f6-20d5-4c38-b9b1-54761f9248d5,2,2,False,2024-09-29 10:40:06.841102,2024-09-29 10:40:06.841621,1.0
+6,Fuel,Unused,Category for various ship parts,b1d1d349-784f-48b5-bdb7-f118c2d77302,5,5,False,2024-09-29 10:40:06.841102,2024-09-29 10:40:06.841621,

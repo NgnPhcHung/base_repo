@@ -1,20 +1,26 @@
 "use client";
+import { FriendRequestStatus } from "@/consts";
+import { useSocket } from "@/providers";
 import { friendService } from "@/services";
 import { Button } from "@mantine/core";
+import { FriendRequestUpdatingBody } from "@repo/schemas";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loading } from "../common";
-import { FriendRequestUpdatingBody } from "@repo/schemas";
-import { FriendEvents, FriendRequestStatus } from "@/consts";
 import { toast } from "../toast";
-import { queryClient, useSocket } from "@/providers";
+import { useFilterQuery } from "@/hooks/useFilterQuery";
 
 export const FriendRequestList = () => {
   const friendApi = friendService();
-  const { socket } = useSocket();
+
+  const { filter } = useFilterQuery("friend", {
+    cursor: 0,
+    sortBy: "id",
+    sortDirection: "ASC",
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ["list-friend-requests"],
-    queryFn: friendApi.getFriendRequestList,
+    queryFn: () => friendApi.getFriendRequestList(filter),
   });
 
   const { mutate: handleAccept, isPending } = useMutation({

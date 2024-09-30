@@ -2,7 +2,11 @@ import { BaseOrmService } from '@common';
 import { FriendRequestEntity, UserEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FriendRequestStatus, User } from '@packages/models';
+import {
+  FriendRequestFilterParams,
+  FriendRequestStatus,
+  User,
+} from '@packages/models';
 import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
@@ -42,12 +46,16 @@ export class FriendRequestService extends BaseOrmService<FriendRequestEntity> {
     return !!existingRequest;
   }
 
-  async getListRequest(user: User) {
+  async getListRequest(user: User, query: FriendRequestFilterParams) {
     return this.repo.findAndCount({
       where: { receiver: { id: user.id }, status: FriendRequestStatus.Pending },
       relations: ['sender', 'receiver'],
+      order: {
+        [query.sortBy]: query.sortDirection,
+      },
+
     });
   }
-
-
 }
+
+

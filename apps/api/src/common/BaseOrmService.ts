@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Pageable } from '@packages/models';
 import {
   DeepPartial,
   EntityManager,
@@ -75,18 +76,10 @@ export abstract class BaseOrmService<T> {
     return this.findAndCount(options);
    */
   async findAndCount(
-    options: FindManyOptions<T> & { cursor?: number },
+    options: FindManyOptions<T> & Pageable,
   ): Promise<{ data: T[]; count: number }> {
-    if(!!options.cursor){
-      options.cursor = options.cursor < 1 ? 1 :options.cursor
-    }
-
-    if (!!options.cursor) {
-      options.skip = (options.cursor - 1 || 1) * options.take;
-    }
-    if (!options.order) {
-      (options.order as Record<string, string>).id = 'ASC';
-    }
+    options.take = options.limit;
+    options.skip = Number(options.cursor || 0) * options.take;
 
     const [result, total] = await this.repository.findAndCount(options);
     return { data: result, count: total };

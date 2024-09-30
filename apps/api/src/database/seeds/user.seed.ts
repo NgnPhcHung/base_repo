@@ -26,12 +26,16 @@ export class UserSeeder implements Seeder {
       parse({ columns: true, delimiter: ',' }),
     );
 
-    console.log('Seeding Users');
     for await (const row of stream) {
       try {
         const user = this.mapper.map(row, UserCreationBody, UserEntity);
         const passwordHashed = await bcrypt.hash(user.password, 10);
         user.password = passwordHashed;
+        const existingUser = userRepository.findOne({
+          where: {
+            username: user.username,
+          },
+        });
         await userRepository.save(user);
       } catch (error) {
         console.error('Error saving user:', error);

@@ -15,7 +15,11 @@ const ormconfig = {
   logging: config.get<boolean>('TYPEORM_LOGGING'),
 
   //for seed
-  seeds: ['src/database/seeds/**/*{.ts,.js}'],
+  seeds: [
+    'src/database/seeds/user.seed.ts',
+    'src/database/seeds/inventory.seed.ts',
+    'src/database/seeds/place.seed.ts',
+  ],
   factories: ['src/database/factories/**/*{.ts,.js}'],
 };
 

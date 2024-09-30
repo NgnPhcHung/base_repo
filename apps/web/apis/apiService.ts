@@ -14,12 +14,12 @@ export interface FetchDataResult<T> {
 }
 
 export interface ApiServices {
-  get: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
-  post: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
-  put: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
-  delete: <T>(url: string) => Promise<FetchDataResult<T>>;
-  patch: <T>(url: string, payload?: object) => Promise<FetchDataResult<T>>;
-  fetchData: <T>(param: object) => Promise<FetchDataResult<T>>;
+  get: <T>(url: string, payload?: object) => Promise<T>;
+  post: <T>(url: string, payload?: object) => Promise<T>;
+  put: <T>(url: string, payload?: object) => Promise<T>;
+  delete: <T>(url: string) => Promise<T>;
+  patch: <T>(url: string, payload?: object) => Promise<T>;
+  fetchData: <T>(param: object) => Promise<T>;
 }
 
 const handleAPIError = (error: AxiosResponse): ApiError => {
@@ -69,7 +69,7 @@ export const apiService: ApiServices = {
   },
 
   fetchData<T>(param: AxiosRequestConfig) {
-    return new Promise<FetchDataResult<T>>(async (resolve) => {
+    return new Promise<T>(async (resolve) => {
       baseService<T>({
         ...param,
         headers: {
@@ -77,14 +77,14 @@ export const apiService: ApiServices = {
         },
       })
         .then((response) => {
-          resolve(response.data as FetchDataResult<T>);
+          resolve(response.data as T);
         })
         .catch(async (error) => {
           if (error?.response?.status === 401) {
             localStorage.removeItem("access_token");
             return;
           }
-          resolve({ error: error as AxiosResponse });
+          resolve(error);
         });
     });
   },

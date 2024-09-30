@@ -1,9 +1,9 @@
 import { ThingEntity } from '@domains/shared';
+import { ApiProperty } from '@nestjs/swagger';
 import { CategoryStatus } from '@packages/models';
+import Property from 'src/decorators/Property';
 import { Entity, ManyToOne, OneToMany } from 'typeorm';
 import { InventoryEntity } from './inventory.entity';
-import { ApiProperty } from '@nestjs/swagger';
-import Property from 'src/decorators/Property';
 
 @Entity()
 export class CategoryEntity extends ThingEntity {
@@ -13,7 +13,7 @@ export class CategoryEntity extends ThingEntity {
   @Property({
     type: 'enum',
     enum: CategoryStatus,
-    default: CategoryStatus.Unused,
+    default: CategoryStatus.Inuse,
   })
   status: CategoryStatus;
 
@@ -22,15 +22,23 @@ export class CategoryEntity extends ThingEntity {
   })
   description?: string;
 
-  @ManyToOne(() => CategoryEntity, (cat) => cat.children, { nullable: true })
+  @ManyToOne(() => CategoryEntity, (cat) => cat.children, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   @ApiProperty({ type: CategoryEntity })
   parent: CategoryEntity;
 
-  @OneToMany(() => CategoryEntity, (cat) => cat.parent, { nullable: true })
+  @OneToMany(() => CategoryEntity, (cat) => cat.parent, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   @ApiProperty({ type: CategoryEntity })
   children: CategoryEntity[];
 
-  @OneToMany(() => InventoryEntity, (inventory) => inventory.category)
-  @ApiProperty({type: InventoryEntity})
+  @OneToMany(() => InventoryEntity, (inventory) => inventory.category, {
+    onDelete: 'CASCADE',
+  })
+  @ApiProperty({ type: InventoryEntity })
   inventories: InventoryEntity[];
 }

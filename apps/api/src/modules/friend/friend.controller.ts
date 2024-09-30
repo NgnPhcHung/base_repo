@@ -12,11 +12,11 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
+  FriendFilterParams,
   FriendRequest,
   FriendRequestFilterParams,
   FriendRequestUpdatingBody,
   Friendship,
-  LocationQueryParams,
   PaginationResult,
   User,
 } from '@packages/models';
@@ -45,7 +45,10 @@ export class FriendController {
     @CurrentUser() user: User,
     @Query() query: FriendRequestFilterParams,
   ) {
-    const [data, total] = await this.friendRequestService.getListRequest(user);
+    const [data, total] = await this.friendRequestService.getListRequest(
+      user,
+      query,
+    );
 
     return new PaginationResult(
       this.mapper.mapArray(data, FriendRequestEntity, FriendRequest),
@@ -91,7 +94,7 @@ export class FriendController {
   )
   async getListFriend(
     @CurrentUser() user: User,
-    @Query() query: LocationQueryParams,
+    @Query() query: FriendFilterParams,
   ) {
     const { data, count } = await this.friendshipService.findAndCount({
       relations: ['userOne', 'userTwo'],
@@ -107,6 +110,7 @@ export class FriendController {
           },
         },
       ],
+      ...query
     });
 
     return new PaginationResult(

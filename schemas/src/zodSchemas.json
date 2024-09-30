@@ -149,5 +149,65 @@
         ]
       }
     }
+  },
+  "LocationQueryParams": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "number"
+      },
+      "sortDirection": {
+        "type": "enum",
+        "values": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "cursor": {
+        "type": "number"
+      },
+      "province": {
+        "type": "object",
+        "properties": {}
+      },
+      "ward": {
+        "type": "object",
+        "properties": {}
+      },
+      "district": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  "ProvinceFilterParam": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "number"
+      },
+      "sortDirection": {
+        "type": "enum",
+        "values": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "cursor": {
+        "type": "number"
+      },
+      "name": {
+        "type": "string"
+      },
+      "code": {
+        "type": "number"
+      }
+    }
   }
 }

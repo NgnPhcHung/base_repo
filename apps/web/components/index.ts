@@ -1,5 +1,6 @@
 export * from "./common";
 export * from "./friends";
+export * from "./inventory";
 export * from "./sidebar";
 export * from "./user-profile";
 export * from "./Header";
