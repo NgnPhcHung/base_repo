@@ -29,7 +29,6 @@ export class InventoryController {
       },
       relations: ['category', 'user'],
     });
-    console.log(query)
     return new PaginationResult(data, count, { ...query });
   }
 }

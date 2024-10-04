@@ -7,6 +7,7 @@ import { FriendshipEntity } from './friendship.entity';
 import { UserLocationEntity } from './user-location.entity';
 import { UserRole } from '@packages/models';
 import { InventoryEntity } from './inventory.entity';
+import { OrderEntity } from './order.entity';
 @Entity()
 export class UserEntity extends ThingEntity {
   @Column({ unique: true })
@@ -55,4 +56,12 @@ export class UserEntity extends ThingEntity {
 
   @OneToMany(() => InventoryEntity, (inventory) => inventory.user)
   inventories: InventoryEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.buyer)
+  @ApiPropertyOptional()
+  ordersAsBuyer: OrderEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.seller)
+  @ApiPropertyOptional()
+  ordersAsSeller: OrderEntity[];
 }

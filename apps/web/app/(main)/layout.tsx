@@ -7,7 +7,7 @@ import { queryClient, useSocket } from "@/providers";
 import { friendService, userService } from "@/services";
 import { currentUser } from "@/store";
 import { AppShell } from "@mantine/core";
-import { SocketEvents } from "@packages/models";
+import { UserRole } from "@repo/schemas";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useEffect } from "react";
@@ -21,31 +21,25 @@ export default function MainLayout({ children }: PropsWithChildren) {
     setUser: state.setUser,
   }));
   const userApi = userService();
-  const friendApi = friendService();
 
   const { isAuthenticated } = useAuth();
   const { socket } = useSocket();
+  const router = useRouter();
 
   const { data } = useQuery({
     queryKey: ["user-me"],
     queryFn: userApi.me,
   });
-  const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated === null) return;
-
-    if (!isAuthenticated) {
-      router.push("/auth/login");
-      return;
+    if (isAuthenticated && !!data) {
+      setUser(data);
     }
-  }, [isAuthenticated, router]);
 
-  useEffect(() => {
-    if (isAuthenticated && !!data?.data) {
-      setUser(data.data);
+    if (data?.role === UserRole.User) {
+      router.push("market");
     }
-  }, [isAuthenticated, data, setUser]);
+  }, [isAuthenticated, data, setUser, router]);
 
   if (isAuthenticated === null) {
     return (
@@ -56,7 +50,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
   }
 
   socket?.on("connect", () => {
-    socket.emit("joinRoom", { room: data?.data?.id });
+    socket.emit("joinRoom", { room: data?.id });
   });
   socket?.on(FriendEvents.ReceiveFriendRequest, () => {
     toast.info("You have new friend request!");

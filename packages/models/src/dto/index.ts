@@ -1,4 +1,5 @@
 export * from "./Category";
+export * from "./Discount";
 export * from "./District";
 export * from "./FriendRequest";
 export * from "./Friendship";
@@ -7,6 +8,8 @@ export * from "./IPaginationResult";
 export * from "./ISingleResult";
 export * from "./Inventory";
 export * from "./ManyResult";
+export * from "./Order";
+export * from "./OrderItem";
 export * from "./Pageable";
 export * from "./PaginateResult";
 export * from "./Province";

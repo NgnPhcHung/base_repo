@@ -1,6 +1,7 @@
 "use client";
 
 import { Loading } from "@/components";
+import { inventoryStatusMapper } from "@/consts";
 import { useFilterQuery } from "@/hooks/useFilterQuery";
 import { inventoryService } from "@/services/inventoryService";
 import { Badge, MantineColor } from "@mantine/core";
@@ -8,14 +9,6 @@ import { Inventory, InventoryFilterParams } from "@packages/models";
 import { FilteredTable } from "@packages/ui";
 import { InventoryStatus } from "@repo/schemas";
 import { useQuery } from "@tanstack/react-query";
-
-const inventoryStatusMapper: Record<InventoryStatus, MantineColor> = {
-  Expired: "red",
-  Published: "blue",
-  Unpublished: "gray",
-  Removed: "red.3",
-  ZeroStock: "yellow",
-};
 
 export const InventoryContainer = () => {
   const { filter, setFilter } = useFilterQuery<InventoryFilterParams>(
@@ -30,7 +23,6 @@ export const InventoryContainer = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["list-inventories", filter],
     queryFn: () => inventoryApi.getInventories(filter),
-
   });
 
   if (isLoading) {

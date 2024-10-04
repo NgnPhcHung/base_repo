@@ -1,4 +1,3 @@
-// redis.service.ts
 import { UserEntity } from '@entities';
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

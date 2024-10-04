@@ -34,6 +34,10 @@ export abstract class BaseOrmService<T> {
     return this.repository.findOne(findConditions);
   }
 
+  findOneBy(findConditions: FindOptionsWhere<T>): Promise<T | undefined> {
+    return this.repository.findOneBy(findConditions);
+  }
+
   create(entity: T): Promise<T> {
     return this.repository.save(entity);
   }
@@ -79,7 +83,7 @@ export abstract class BaseOrmService<T> {
     options: FindManyOptions<T> & Pageable,
   ): Promise<{ data: T[]; count: number }> {
     options.take = options.limit;
-    options.skip = Number(options.cursor || 0) * options.take;
+    options.skip = options.skip ?? Number(options.cursor || 0) * options.take;
 
     const [result, total] = await this.repository.findAndCount(options);
     return { data: result, count: total };

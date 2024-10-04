@@ -1,3 +1,5 @@
+"use client"
+
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 

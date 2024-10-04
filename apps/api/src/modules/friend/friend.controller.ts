@@ -5,6 +5,8 @@ import { FriendRequestEntity, FriendshipEntity } from '@entities';
 import {
   Body,
   Controller,
+  forwardRef,
+  Inject,
   Param,
   Query,
   UnprocessableEntityException,
@@ -31,6 +33,7 @@ export class FriendController {
   @InjectMapper() mapper: Mapper;
 
   constructor(
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
     private readonly friendshipService: FriendshipService,
     private readonly friendRequestService: FriendRequestService,
@@ -110,7 +113,7 @@ export class FriendController {
           },
         },
       ],
-      ...query
+      ...query,
     });
 
     return new PaginationResult(

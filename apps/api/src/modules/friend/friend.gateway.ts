@@ -12,6 +12,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { UserService } from '../user/user.service';
 import { FriendRequestService } from './friend-request.service';
+import { forwardRef, Inject } from '@nestjs/common';
 
 @WebSocketGateway({
   namespace: '/friends',
@@ -21,6 +22,8 @@ export class FriendGateway {
   @WebSocketServer() server: Server;
 
   constructor(
+    
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
     private readonly friendRequestService: FriendRequestService,
   ) {}

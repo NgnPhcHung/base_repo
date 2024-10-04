@@ -60,7 +60,7 @@ export const FilteredTable = <T extends Record<string, any>>({
         columnAccessor: sortBy,
         direction: sortCasing(sortDirection),
       }}
-      page={Number(cursor)}
+      page={Number(cursor + 1)}
       id="mantine-datatable"
       {...props}
     />

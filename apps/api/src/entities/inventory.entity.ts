@@ -3,9 +3,10 @@ import { ThingEntity } from '@domains/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { InventoryStatus } from '@packages/models';
 import Property from 'src/decorators/Property';
-import { Entity, Index, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, Index, OneToMany, ManyToOne } from 'typeorm';
 import { CategoryEntity } from './category.entity';
 import { UserEntity } from './user.entity';
+import { OrderItemEntity } from './order-item.entity';
 
 @Entity()
 export class InventoryEntity extends ThingEntity {
@@ -39,4 +40,7 @@ export class InventoryEntity extends ThingEntity {
   @ApiProperty()
   @AutoMap()
   user!: UserEntity;
+
+  @OneToMany(() => OrderItemEntity, orderItem => orderItem.orderData)
+  orderItems: OrderItemEntity[]
 }

@@ -17,7 +17,6 @@ export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 
   @Read('/districts', {
-    inputDto: LocationQueryParams,
     dto: PaginationResult<District>,
   })
   async getListDistrict(@Query() query: LocationQueryParams) {
@@ -27,8 +26,7 @@ export class LocationController {
   }
 
   @Read('/provinces', {
-    inputDto: ProvinceFilterParam,
-    dto: PaginationResult<Province>,
+    dto: Province,
   })
   async getListProvince(@Query() query: ProvinceFilterParam) {
     const { data, count } = await this.locationService.getListProvince(query);
@@ -37,8 +35,7 @@ export class LocationController {
   }
 
   @Read('/wards', {
-    inputDto: LocationQueryParams,
-    dto: PaginationResult<Ward>,
+    dto: Ward,
   })
   async getListWard(@Query() query: LocationQueryParams) {
     const { data, count } = await this.locationService.getListWard(query);

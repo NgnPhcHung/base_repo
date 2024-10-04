@@ -2,9 +2,11 @@ import { RequireIf } from '@decorators';
 import { ThingEntity } from '@domains/shared';
 import { DiscountApplyType, DiscountType } from '@packages/models';
 import Property from 'src/decorators/Property';
-import { Entity, JoinTable, ManyToMany } from 'typeorm';
+import { OneToOne, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { InventoryEntity } from './inventory.entity';
 import { UserEntity } from './user.entity';
+import { OrderItemEntity } from './order-item.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity()
 export class DiscountEntity extends ThingEntity {
@@ -53,10 +55,11 @@ export class DiscountEntity extends ThingEntity {
   })
   applyType: DiscountApplyType;
 
-  @ManyToMany(() => InventoryEntity, {
+  @OneToMany(() => OrderItemEntity, (discount) => discount.discountData, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
-  @RequireIf((discount) => discount.applyType === DiscountApplyType.Specific)
-  products: InventoryEntity[];
+  discountItems?: OrderItemEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.discountData)
+  discountOrders?: OrderEntity[];
 }

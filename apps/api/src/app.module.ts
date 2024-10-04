@@ -15,6 +15,7 @@ import { LocationModule } from './modules/location/location.module';
 import { RedisAppModule } from './modules/redis';
 import { DefaultMapper } from './utils';
 import { DiscountModule } from './modules/discount/discount.module';
+import { MarketModule } from './modules/market/market.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DiscountModule } from './modules/discount/discount.module';
     LocationModule,
     InventoryModule,
     DiscountModule,
+    MarketModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

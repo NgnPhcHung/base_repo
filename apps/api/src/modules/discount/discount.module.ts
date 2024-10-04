@@ -1,5 +1,5 @@
 import { DiscountEntity, UserEntity } from '@entities';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DiscountController } from './discount.controller';
 import { DiscountService } from './discount.service';

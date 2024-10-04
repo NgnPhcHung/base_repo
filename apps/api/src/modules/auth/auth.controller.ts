@@ -6,6 +6,7 @@ import {
   ConflictException,
   Controller,
   ForbiddenException,
+  forwardRef,
   Inject,
   Post,
   Req,
@@ -35,7 +36,7 @@ const SEVEN_DAYS = 7 * 24 * 60 * 60;
 export class AuthController {
   @InjectMapper() mapper: Mapper;
 
-  @Inject(UserService)
+  @Inject(forwardRef(() => UserService))
   private userService: UserService;
 
   @Inject(AuthService)
@@ -82,7 +83,7 @@ export class AuthController {
       res.cookie('refreshToken', refresh_token, {
         httpOnly: true,
         path: '/v1/api/auth/session/refresh',
-        sameSite:"strict",
+        sameSite: 'strict',
         secure: true,
       });
       return res.send(new SingleResult({ access_token }));

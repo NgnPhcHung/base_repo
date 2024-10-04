@@ -1,10 +1,10 @@
+"use client"
+
 import { ISingleResult } from "@packages/models";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const router = useRouter();
 
   
 

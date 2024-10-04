@@ -1,3 +1,5 @@
+"use client"
+
 import { Select, SelectProps } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";

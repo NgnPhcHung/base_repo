@@ -1,6 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
+  forwardRef,
+  Inject,
   Injectable,
   UnauthorizedException
 } from '@nestjs/common';
@@ -12,6 +14,8 @@ import { extractTokenFromHeader } from 'src/utils';
 export class JwtAuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
+
+    @Inject(forwardRef(() => UserService))
     private userService: UserService,
   ) {}
 

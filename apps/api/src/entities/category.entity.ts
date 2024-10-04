@@ -22,20 +22,6 @@ export class CategoryEntity extends ThingEntity {
   })
   description?: string;
 
-  @ManyToOne(() => CategoryEntity, (cat) => cat.children, {
-    nullable: true,
-    onDelete: 'CASCADE',
-  })
-  @ApiProperty({ type: CategoryEntity })
-  parent: CategoryEntity;
-
-  @OneToMany(() => CategoryEntity, (cat) => cat.parent, {
-    nullable: true,
-    onDelete: 'CASCADE',
-  })
-  @ApiProperty({ type: CategoryEntity })
-  children: CategoryEntity[];
-
   @OneToMany(() => InventoryEntity, (inventory) => inventory.category, {
     onDelete: 'CASCADE',
   })

@@ -1,4 +1,4 @@
-import { IconBox, IconUsersGroup } from "@tabler/icons-react";
+import { IconBox, IconShoppingBag, IconUsersGroup } from "@tabler/icons-react";
 import { SidebarItem } from "./Sidebar";
 
 export const sidebarItem: SidebarItem[] = [
@@ -13,5 +13,11 @@ export const sidebarItem: SidebarItem[] = [
     collapseIcon: <IconBox size={30}/>,
     label: "Inventories",
     url: "inventory",
+  },
+  {
+    expandIcon: <IconShoppingBag size={20}/>,
+    collapseIcon: <IconShoppingBag size={30}/>,
+    label: "Marketplace",
+    url: "market",
   },
 ];

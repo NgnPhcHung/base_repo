@@ -1,8 +1,8 @@
+import { BaseOrmService } from '@common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
 import { UserEntity } from '../../entities/user.entity';
-import { BaseOrmService } from '@common';
 
 @Injectable()
 export class UserService extends BaseOrmService<UserEntity> {
@@ -40,13 +40,5 @@ export class UserService extends BaseOrmService<UserEntity> {
       throw new Error('One or both users not found.');
     }
     return { userOne, userTwo };
-
-    // const friendship = this.friendshipRepository.create({
-    //   userOne,
-    //   userTwo,
-    // });
-
-    // await this.friendshipRepository.save(friendship);
-    // return friendship;
   }
 }
