@@ -18,7 +18,7 @@ export class OrderEntity extends ThingEntity {
   orderDate!: Date;
 
   @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
-  orderItem!: OrderItemEntity[];
+  orderItems!: OrderItemEntity[];
 
   @Property({ type: 'decimal', precision: 2 })
   total!: number;

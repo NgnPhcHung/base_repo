@@ -1,9 +1,8 @@
 "use client";
 
-import { inventoryStatusMapper } from "@/consts";
 import { useFilterQuery } from "@/hooks";
-import { marketService } from "@/services";
-import { Badge, Chip, Group } from "@mantine/core";
+import { cartService, orderService } from "@/services";
+import { Chip, Group } from "@mantine/core";
 import { Inventory, InventoryFilterParams } from "@packages/models";
 import { FilteredTable } from "@packages/ui";
 import { InventoryStatus } from "@repo/schemas";
@@ -12,7 +11,8 @@ import { useRouter } from "next/navigation";
 import { Loading } from "../common";
 
 export const MarketContainer = () => {
-  const marketApi = marketService();
+  const marketApi = orderService();
+  const cartApi = cartService();
   const router = useRouter();
 
   const { data: categoryData, isLoading: isCategoryLoading } = useQuery({
@@ -26,7 +26,7 @@ export const MarketContainer = () => {
       cursor: 0,
       sortDirection: "ASC",
       status: InventoryStatus.Published,
-      categoryId: categoryData?.data?.[0].id,
+      categoryId: categoryData?.data?.[0]?.id,
     }
   );
 
@@ -35,6 +35,8 @@ export const MarketContainer = () => {
     queryFn: () => marketApi.getListItems(filter!),
     enabled: !!filter.categoryId,
   });
+
+
 
   const onSelectCategory = (categoryId: any) => {
     setFilter({ ...filter, categoryId });

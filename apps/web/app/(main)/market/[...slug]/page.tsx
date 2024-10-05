@@ -1,30 +1,20 @@
 "use client";
 
-import { Loading } from "@/components";
-import { marketService } from "@/services";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { ProductDetail } from "@/components";
 
-const ProductDetail = () => {
-  const query = useParams();
-  const itemId = query.slug[0];
-  const marketApi = marketService();
-
-  const { data: item, isLoading } = useQuery({
-    queryKey: ["market-item-detail", itemId],
-    queryFn: () => marketApi.getSelectedItem(Number(itemId)),
-  });
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return (
-    <div>
-      <h1>{item?.data.title}</h1>
-      <p>{item?.data.description}</p>
-    </div>
-  );
+const ProductDetailPage = () => {
+  return <ProductDetail />;
 };
 
 export default ProductDetail;
+// const { mutate, isPending } = useMutation({
+//   mutationKey: ["login"],
+//   mutationFn: async (data: UserLoginBody) => {
+//     const res: any = await authApi.login(data);
+
+//     if (res) {
+//       saveToken(res);
+//       router.push("/");
+//     }
+//   },
+// });

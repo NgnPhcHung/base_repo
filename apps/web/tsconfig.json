@@ -6,7 +6,7 @@
       "esnext"
     ],
     "allowJs": false,
-    "skipLibCheck": true,
+    "skipLibCheck": null,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -28,7 +28,7 @@
     }
   },
   "include": [
-    "**/*.ts", // Broad pattern to ensure all TS files are included
+    "**/*.ts", 
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],

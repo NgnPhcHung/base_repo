@@ -1,3 +1,4 @@
+export * from "./cart.entity";
 export * from "./category.entity";
 export * from "./discount.entity";
 export * from "./district.entity";

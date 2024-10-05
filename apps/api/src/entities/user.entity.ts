@@ -1,13 +1,14 @@
 import { AutoMap } from '@automapper/classes';
 import { ThingEntity } from '@domains/shared';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Column, Entity, JoinTable, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, OneToMany, OneToOne } from 'typeorm';
 import { FriendRequestEntity } from './friend-request.entity';
 import { FriendshipEntity } from './friendship.entity';
 import { UserLocationEntity } from './user-location.entity';
 import { UserRole } from '@packages/models';
 import { InventoryEntity } from './inventory.entity';
 import { OrderEntity } from './order.entity';
+import { CartEntity } from './cart.entity';
 @Entity()
 export class UserEntity extends ThingEntity {
   @Column({ unique: true })
@@ -64,4 +65,13 @@ export class UserEntity extends ThingEntity {
   @OneToMany(() => OrderEntity, (order) => order.seller)
   @ApiPropertyOptional()
   ordersAsSeller: OrderEntity[];
+
+  
+  @OneToMany(() => CartEntity, (order) => order.buyer)
+  @ApiPropertyOptional()
+  cartForBuyer: CartEntity[];
+
+  @OneToMany(() => CartEntity, (order) => order.seller)
+  @ApiPropertyOptional()
+  cartForSeller: CartEntity[];
 }

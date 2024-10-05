@@ -1,13 +1,19 @@
-import { RequireIf } from '@decorators';
 import { ThingEntity } from '@domains/shared';
 import { DiscountApplyType, DiscountType } from '@packages/models';
 import Property from 'src/decorators/Property';
-import { OneToOne, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import { InventoryEntity } from './inventory.entity';
-import { UserEntity } from './user.entity';
+import { Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { OrderItemEntity } from './order-item.entity';
 import { OrderEntity } from './order.entity';
+import { UserEntity } from './user.entity';
 
+/**
+ * The purpose of design discount entity
+ * discount type is fixed amount or discount by percent of order/order items
+ * discount can be apply on hole shop or specific items in shop
+ * limit use released discount is limit by start date, end date, isActive, max uses
+ * and limit user use this discount voucher max use per user
+ * 
+ */
 @Entity()
 export class DiscountEntity extends ThingEntity {
   @Property()
@@ -47,6 +53,9 @@ export class DiscountEntity extends ThingEntity {
 
   @Property({ type: 'int' })
   minOrderValue!: number;
+
+  @Property({ type: 'decimal', precision: 2 })
+  discountValue!: number;
 
   @Property({
     type: 'enum',

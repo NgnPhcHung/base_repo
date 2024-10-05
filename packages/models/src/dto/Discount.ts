@@ -51,6 +51,10 @@ export class Discount extends Thing {
   @AutoMap()
   minOrderValue!: number;
 
+  @ApiProperty({ type: "decimal" })
+  @AutoMap()
+  discountValue!: number;
+
   @ApiProperty({})
   @AutoMap()
   applyType!: DiscountApplyType;

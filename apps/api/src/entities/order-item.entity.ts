@@ -10,7 +10,7 @@ export class OrderItemEntity extends ThingEntity {
   @Property()
   title!: string;
 
-  @ManyToOne(() => OrderEntity, (order) => order.orderItem)
+  @ManyToOne(() => OrderEntity, (order) => order.orderItems)
   order!: OrderEntity;
 
   @Property({ type: 'int' })
@@ -20,7 +20,7 @@ export class OrderItemEntity extends ThingEntity {
   amount!: number;
 
   @ManyToOne(() => InventoryEntity, (inventory) => inventory.orderItems)
-  orderData!: InventoryEntity;
+  itemData!: InventoryEntity;
 
   @ManyToOne(() => DiscountEntity, (discount) => discount.discountItems)
   discountData?: DiscountEntity;

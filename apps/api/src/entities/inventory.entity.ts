@@ -7,6 +7,7 @@ import { Entity, Index, OneToMany, ManyToOne } from 'typeorm';
 import { CategoryEntity } from './category.entity';
 import { UserEntity } from './user.entity';
 import { OrderItemEntity } from './order-item.entity';
+import { CartEntity } from './cart.entity';
 
 @Entity()
 export class InventoryEntity extends ThingEntity {
@@ -41,6 +42,9 @@ export class InventoryEntity extends ThingEntity {
   @AutoMap()
   user!: UserEntity;
 
-  @OneToMany(() => OrderItemEntity, orderItem => orderItem.orderData)
+  @OneToMany(() => OrderItemEntity, orderItem => orderItem.itemData)
   orderItems: OrderItemEntity[]
+  
+  @OneToMany(() => CartEntity, orderItem => orderItem.itemData)
+  cartData: CartEntity[]
 }

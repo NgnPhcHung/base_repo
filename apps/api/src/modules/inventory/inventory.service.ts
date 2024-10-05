@@ -1,5 +1,5 @@
 import { BaseOrmService } from '@common';
-import { InventoryEntity } from '@entities';
+import { InventoryEntity, UserEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Redis from 'ioredis';
@@ -32,5 +32,20 @@ export class InventoryService extends BaseOrmService<InventoryEntity> {
       // roll back if not enough items
       await this.redisClient.incrby(inventoryKey, quantity);
     }
+  }
+
+  async isValidInventory(
+    inventory: InventoryEntity,
+    seller: UserEntity,
+  ): Promise<Boolean> {
+    const loadedInventory = await this.findOne({
+      where: { id: inventory.id, user: {
+        id: seller.id
+      } },
+      relations: ['user'],
+    });
+    console.log(loadedInventory);
+
+    return !!loadedInventory;
   }
 }

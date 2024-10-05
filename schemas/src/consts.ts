@@ -4,6 +4,16 @@ export enum CategoryStatus {
   Unused = "Unused",
 }
 
+export enum DiscountApplyType {
+  All = "All",
+  Specific = "Specific",
+}
+
+export enum DiscountType {
+  Percentage = "Percentage",
+  FixedAmount="Fixed Amount"
+}
+
 export enum FriendEvents {
   SendFriendRequest = "sendFriendRequest",
   FriendRequestSent = "friendRequestSent",
@@ -25,13 +35,11 @@ export enum InventoryStatus {
   ZeroStock = "ZeroStock",
 }
 
-export enum InventoryStatusType {
-    Published = "Published",
-    Unpublished = "Unpublished",
-    Removed = "Removed",
-    Expired = "Expired",
-    ZeroStock = "ZeroStock",
-  }
+export enum DiscountType {
+  Percentage = "Percentage",
+  FixedAmount = "Fixed Amount",
+}
+
 export enum OrderStatus {
   New = "New",
   Confirmed = "Confirmed",
@@ -61,5 +69,6 @@ export enum SocketEvents {
 export enum UserRole {
   Admin = "admin",
   User = "user",
+  ShopOwner = "shop owner",
 }
 

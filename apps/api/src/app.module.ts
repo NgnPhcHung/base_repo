@@ -8,14 +8,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import * as entities from './entities';
-import { AuthModule, UserModule } from './modules';
-import { FriendModule } from './modules/friend/friend.module';
-import { InventoryModule } from './modules/inventory/inventory.module';
-import { LocationModule } from './modules/location/location.module';
-import { RedisAppModule } from './modules/redis';
+import {
+  AuthModule,
+  CartModule,
+  DiscountModule,
+  FriendModule,
+  InventoryModule,
+  LocationModule,
+  OrderModule,
+  RedisAppModule,
+  UserModule,
+} from './modules';
 import { DefaultMapper } from './utils';
-import { DiscountModule } from './modules/discount/discount.module';
-import { MarketModule } from './modules/market/market.module';
 
 @Module({
   imports: [
@@ -27,7 +31,8 @@ import { MarketModule } from './modules/market/market.module';
     LocationModule,
     InventoryModule,
     DiscountModule,
-    MarketModule,
+    CartModule,
+    OrderModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

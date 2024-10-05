@@ -1,17 +1,17 @@
 import { BaseOrmService } from '@common';
+import { CartEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderEntity } from 'src/entities/order.entity';
 import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
-export class MarketService extends BaseOrmService<OrderEntity> {
+export class CartService extends BaseOrmService<CartEntity> {
   constructor(
-    @InjectRepository(OrderEntity)
-    private repo: Repository<OrderEntity>,
+    @InjectRepository(CartEntity)
+    repo: Repository<CartEntity>,
     em: EntityManager,
   ) {
-    super(OrderEntity, em);
+    super(CartEntity, em);
     this.repository = repo;
   }
 }

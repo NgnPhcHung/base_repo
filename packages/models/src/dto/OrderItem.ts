@@ -1,7 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Thing } from "./Thing";
 import { AutoMap } from "@automapper/classes";
 import { Discount } from "./Discount";
+import { Inventory } from "./Inventory";
 
 export class OrderItem extends Thing {
   @ApiProperty()
@@ -18,5 +19,9 @@ export class OrderItem extends Thing {
 
   @ApiProperty()
   @AutoMap()
-  discount?: Discount;
+  orderData!: Inventory;
+
+  @ApiPropertyOptional()
+  @AutoMap()
+  discountData?: Discount;
 }

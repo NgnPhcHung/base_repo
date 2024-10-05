@@ -3,7 +3,7 @@ import Redis from 'ioredis';
 import { RedisService } from '../redis';
 
 @Injectable()
-export class MarketRedisService {
+export class OrderRedisService {
   private readonly redisClient: Redis;
   constructor(private readonly redisService: RedisService) {
     this.redisClient = this.redisService.getClient();

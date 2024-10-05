@@ -1,17 +1,26 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { OrderItem } from "../dto/OrderItem";
+import { AutoMap } from "@automapper/classes";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Discount } from "../dto/Discount";
+import { PurchaseOrderItemCreationBody } from "./PurchaseOrderItemCreationBody";
 
 export class PurchaseOrderCreationBody {
   @ApiProperty()
-  orderItems!: OrderItem[];
+  @AutoMap()
+  orderItems!: PurchaseOrderItemCreationBody[];
 
   @ApiProperty()
-  quantity!: number;
+  @AutoMap()
+  buyer!: number
+  
+  @ApiProperty()
+  @AutoMap()
+  seller!: number
+
+  @ApiPropertyOptional()
+  @AutoMap()
+  discount?: Discount;
 
   @ApiProperty()
-  discount!: Discount
-
-  @ApiProperty()
-  total!: number
+  @AutoMap()
+  total!: number;
 }

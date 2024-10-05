@@ -18,7 +18,8 @@
         "type": "enum",
         "values": [
           "admin",
-          "user"
+          "user",
+          "shop owner"
         ]
       }
     }
@@ -82,7 +83,8 @@
         "type": "enum",
         "values": [
           "admin",
-          "user"
+          "user",
+          "shop owner"
         ]
       }
     }
@@ -150,62 +152,183 @@
       }
     }
   },
-  "LocationQueryParams": {
+  "CartCreationBody": {
     "type": "object",
     "properties": {
-      "limit": {
+      "seller": {
         "type": "number"
       },
-      "sortDirection": {
-        "type": "enum",
-        "values": [
-          "ASC",
-          "DESC"
-        ]
-      },
-      "sortBy": {
-        "type": "string"
-      },
-      "cursor": {
+      "buyer": {
         "type": "number"
       },
-      "province": {
-        "type": "object",
-        "properties": {}
+      "quantity": {
+        "type": "number"
       },
-      "ward": {
-        "type": "object",
-        "properties": {}
-      },
-      "district": {
-        "type": "object",
-        "properties": {}
+      "itemId": {
+        "type": "number"
       }
     }
   },
-  "ProvinceFilterParam": {
+  "Discount": {
     "type": "object",
     "properties": {
-      "limit": {
+      "id": {
         "type": "number"
       },
-      "sortDirection": {
-        "type": "enum",
-        "values": [
-          "ASC",
-          "DESC"
-        ]
+      "isArchived": {
+        "type": "boolean",
+        "optional": true,
+        "details": {
+          "type": "boolean"
+        }
       },
-      "sortBy": {
-        "type": "string"
+      "dateCreate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
       },
-      "cursor": {
-        "type": "number"
+      "dateUpdate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
       },
       "name": {
         "type": "string"
       },
-      "code": {
+      "description": {
+        "type": "string"
+      },
+      "discountType": {
+        "type": "string"
+      },
+      "startDate": {
+        "type": "unknown"
+      },
+      "endDate": {
+        "type": "unknown"
+      },
+      "isActive": {
+        "type": "unknown"
+      },
+      "maxUses": {
+        "type": "unknown"
+      },
+      "usesCount": {
+        "type": "unknown"
+      },
+      "usersUsed": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "maxUsedPerUser": {
+        "type": "unknown"
+      },
+      "minOrderValue": {
+        "type": "unknown"
+      },
+      "discountValue": {
+        "type": "unknown"
+      },
+      "applyType": {
+        "type": "string"
+      },
+      "discountItems": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "discountOrders": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "Order": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number"
+      },
+      "isArchived": {
+        "type": "boolean",
+        "optional": true,
+        "details": {
+          "type": "boolean"
+        }
+      },
+      "dateCreate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "dateUpdate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "title": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      },
+      "orderDate": {
+        "type": "date"
+      },
+      "total": {
+        "type": "number"
+      },
+      "buyer": {
+        "type": "unknown"
+      },
+      "seller": {
+        "type": "unknown"
+      },
+      "discountData": {
+        "type": "unknown",
+        "optional": true,
+        "details": {
+          "type": "unknown"
+        }
+      }
+    }
+  },
+  "PurchaseOrderCreationBody": {
+    "type": "object",
+    "properties": {
+      "orderItems": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "buyer": {
+        "type": "number"
+      },
+      "seller": {
+        "type": "number"
+      },
+      "discount": {
+        "type": "unknown",
+        "optional": true,
+        "details": {
+          "type": "unknown"
+        }
+      },
+      "total": {
         "type": "number"
       }
     }
