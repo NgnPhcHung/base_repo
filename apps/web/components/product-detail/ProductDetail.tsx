@@ -18,13 +18,13 @@ export const ProductDetail = () => {
   const orderApi = orderService();
   const cartApi = cartService();
 
-  const { control, handleSubmit, watch, setValue } =
+  const { control, handleSubmit, watch, setValue, getValues, reset } =
     useForm<CartItemUpdatingBody>({
       defaultValues: { quantity: 1 },
       mode: "onChange",
     });
-  const [itemQty, setItemQty] = useState<number>(1);
   const { user } = currentUser();
+  const quantity = watch("quantity");
 
   const { data: item, isLoading } = useQuery({
     queryKey: ["market-item-detail", itemId],
@@ -46,14 +46,13 @@ export const ProductDetail = () => {
         buyer,
         seller,
         itemId,
-        quantity: itemQty,
+        quantity,
       };
       await cartApi.addToCart(payload);
     },
     onError: (error) => toast.error(error.message),
   });
 
-  const quantity = watch("quantity");
   const { mutate: updateItemBody } = useMutation({
     mutationKey: ["update-cart-item-qty"],
     mutationFn: async (data: CartItemUpdatingBody) => {},
@@ -69,7 +68,9 @@ export const ProductDetail = () => {
       return;
     }
     setValue("quantity", quantity + 1);
-    return
+    const formData = getValues();
+
+    handleUpdateQtyDebounce({ ...formData, quantity });
   };
 
   if (isLoading) {

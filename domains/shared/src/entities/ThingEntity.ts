@@ -11,6 +11,7 @@ import { v4 as uuid } from "uuid";
 import { BaseEntity } from "./BaseEntity";
 import { ApiProperty } from "@nestjs/swagger";
 import { AutoMap } from "@automapper/classes";
+import { RequestStore } from "../common";
 
 export abstract class ThingEntity extends BaseEntity {
   /**
@@ -59,5 +60,21 @@ export abstract class ThingEntity extends BaseEntity {
   @BeforeInsert()
   generateHash() {
     this.hash = uuid();
+  }
+
+  @BeforeInsert()
+  setCreatedBy() {
+    const id = RequestStore.getUser()?.id;
+    console.log("on create", id);
+    const createdBy = id ? Number(id) : undefined;
+    this.createdBy = createdBy;
+  }
+
+  @BeforeUpdate()
+  setUpdatedBy() {
+    const id = RequestStore.getUser()?.id;
+    console.log("on update", id);
+    const updatedBy = id ? Number(id) : undefined;
+    this.updatedBy = updatedBy;
   }
 }

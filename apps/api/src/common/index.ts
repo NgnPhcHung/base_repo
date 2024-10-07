@@ -1,1 +1,1 @@
-export * from "./BaseOrmService";
+export * from './BaseOrmService';

@@ -8,7 +8,7 @@ import {
   Controller,
   forwardRef,
   Inject,
-  Param,
+  Param
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
@@ -18,10 +18,10 @@ import {
   SingleResult,
   UserRole,
 } from '@packages/models';
-import { InventoryService } from '../inventory/inventory.service';
-import { CartService } from './cart.service';
-import { UserService } from '../user/user.service';
 import { ensurePromise } from '@packages/shared';
+import { InventoryService } from '../inventory/inventory.service';
+import { UserService } from '../user/user.service';
+import { CartService } from './cart.service';
 
 @ApiTags('Carts')
 @Controller('carts')
@@ -69,13 +69,14 @@ export class CartController {
       if (!isValid) {
         throw new BadRequestException('Item does not exist');
       }
+      
+      const cartToSave =new CartEntity();
+      cartToSave.buyer=loadedBuyer
+      cartToSave.seller= loadedSeller
+      cartToSave.itemData= loadedItem
+      cartToSave.quantity=quantity
 
-      const newCart = await this.cartService.save({
-        buyer: loadedBuyer,
-        seller: loadedSeller,
-        itemData: loadedItem,
-        quantity,
-      });
+      const newCart = await this.cartService.save(cartToSave);
 
       return new SingleResult(this.mapper.map(newCart, CartEntity, Cart));
     } catch (error) {

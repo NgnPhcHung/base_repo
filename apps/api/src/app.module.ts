@@ -1,11 +1,13 @@
 import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
 import { ThingEntity } from '@domains/shared';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AsyncContextService } from './common/async-context.service';
 import { DatabaseModule } from './database/database.module';
 import * as entities from './entities';
 import {
@@ -20,11 +22,14 @@ import {
   UserModule,
 } from './modules';
 import { DefaultMapper } from './utils';
+import { AsyncContextMiddleware } from './common/async-context.middleware';
+import { CommonModule } from './modules/common/common.module';
 
 @Module({
   imports: [
-    AuthModule,
     DatabaseModule,
+    CommonModule,
+    AuthModule,
     UserModule,
     RedisAppModule,
     FriendModule,
@@ -43,6 +48,12 @@ import { DefaultMapper } from './utils';
     TypeOrmModule.forFeature([ThingEntity]),
   ],
   controllers: [AppController],
-  providers: [AppService, DefaultMapper],
+  providers: [AppService, DefaultMapper, AsyncContextService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AsyncContextMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

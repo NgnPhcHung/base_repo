@@ -1,7 +1,8 @@
-import { FriendRequestEntity, FriendshipEntity, UserEntity } from '@entities';
-import { Module } from '@nestjs/common';
+import { FriendRequestEntity, FriendshipEntity } from '@entities';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserService } from '../user/user.service';
+import { UserModule } from '../user';
+import { UserMapper } from '../user/user.mapper';
 import { FriendRequestMapper } from './friend-request.mapper';
 import { FriendRequestService } from './friend-request.service';
 import { FriendController } from './friend.controller';
@@ -9,20 +10,14 @@ import { FriendGateway } from './friend.gateway';
 import { FriendService } from './friend.service';
 import { FriendshipMapper } from './friendship.mapper';
 import { FriendshipService } from './friendship.service';
-import { UserMapper } from '../user/user.mapper';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      FriendRequestEntity,
-      FriendshipEntity,
-      UserEntity,
-    ]),
+    TypeOrmModule.forFeature([FriendRequestEntity, FriendshipEntity]),
+    forwardRef(() => UserModule),
   ],
   providers: [
     UserMapper,
-    UserService,
-    UserService,
     FriendGateway,
     FriendService,
     FriendshipMapper,

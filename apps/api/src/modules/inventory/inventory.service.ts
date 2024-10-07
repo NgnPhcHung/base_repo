@@ -44,7 +44,6 @@ export class InventoryService extends BaseOrmService<InventoryEntity> {
       } },
       relations: ['user'],
     });
-    console.log(loadedInventory);
 
     return !!loadedInventory;
   }

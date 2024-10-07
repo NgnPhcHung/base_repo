@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Pageable } from '@packages/models';
 import {
   DeepPartial,
@@ -16,6 +16,7 @@ import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity
 export abstract class BaseOrmService<T> {
   protected repository: Repository<T>;
   protected defaultSortField: keyof T;
+  protected currentUser: any;
 
   constructor(
     entityClass: EntityTarget<T>,
@@ -39,6 +40,9 @@ export abstract class BaseOrmService<T> {
   }
 
   create(entity: T): Promise<T> {
+    if (this.currentUser) {
+      entity['createdBy'] = this.currentUser.id;
+    }
     return this.repository.save(entity);
   }
 
@@ -49,6 +53,9 @@ export abstract class BaseOrmService<T> {
    * @example this.update({ id: loadedRequest.id }, updateDTO)
    */
   async update(target: FindOptionsWhere<T>, data: QueryDeepPartialEntity<T>) {
+    if (this.currentUser) {
+      data['updatedBy'] = this.currentUser.id;
+    }
     await this.repository.update(target, data);
   }
 
