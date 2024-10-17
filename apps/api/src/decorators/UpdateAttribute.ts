@@ -21,7 +21,6 @@ export function UpdateAttribute<T>(
   endpoint: string,
   { inputDto, description, dto }: UpdateAttributeOptions<T>,
 ) {
-  const name: string = dto.name.toLowerCase();
 
   return applyDecorators(
     Put(endpoint),
@@ -29,7 +28,7 @@ export function UpdateAttribute<T>(
       dto,
       inputDto,
       status: HttpStatus.OK,
-      description: description ?? `${name} updated successfully`,
+      description: description,
     }),
   );
 }

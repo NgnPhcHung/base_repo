@@ -152,6 +152,40 @@
       }
     }
   },
+  "InventoryFilterParams": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "number"
+      },
+      "sortDirection": {
+        "type": "enum",
+        "values": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "cursor": {
+        "type": "number"
+      },
+      "categoryId": {
+        "type": "number"
+      },
+      "status": {
+        "type": "enum",
+        "values": [
+          "Published",
+          "Unpublished",
+          "Removed",
+          "Expired",
+          "ZeroStock"
+        ]
+      }
+    }
+  },
   "CartCreationBody": {
     "type": "object",
     "properties": {
@@ -165,6 +199,183 @@
         "type": "number"
       },
       "itemId": {
+        "type": "number"
+      }
+    }
+  },
+  "Category": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number"
+      },
+      "isArchived": {
+        "type": "boolean",
+        "optional": true,
+        "details": {
+          "type": "boolean"
+        }
+      },
+      "dateCreate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "dateUpdate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "title": {
+        "type": "string"
+      },
+      "status": {
+        "type": "enum",
+        "values": [
+          "Inuse",
+          "Deprecated",
+          "Unused"
+        ]
+      },
+      "description": {
+        "type": "string",
+        "optional": true,
+        "details": {
+          "type": "string"
+        }
+      },
+      "parent": {
+        "type": "unknown",
+        "optional": true,
+        "details": {
+          "type": "unknown"
+        }
+      },
+      "children": {
+        "type": "unknown",
+        "optional": true,
+        "details": {
+          "type": "unknown"
+        }
+      },
+      "inventories": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "Inventory": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number"
+      },
+      "isArchived": {
+        "type": "boolean",
+        "optional": true,
+        "details": {
+          "type": "boolean"
+        }
+      },
+      "dateCreate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "dateUpdate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "price": {
+        "type": "unknown"
+      },
+      "quantity": {
+        "type": "unknown"
+      },
+      "status": {
+        "type": "enum",
+        "values": [
+          "Published",
+          "Unpublished",
+          "Removed",
+          "Expired",
+          "ZeroStock"
+        ]
+      },
+      "category": {
+        "type": "unknown"
+      },
+      "user": {
+        "type": "unknown"
+      }
+    }
+  },
+  "Cart": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number"
+      },
+      "isArchived": {
+        "type": "boolean",
+        "optional": true,
+        "details": {
+          "type": "boolean"
+        }
+      },
+      "dateCreate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "dateUpdate": {
+        "type": "date",
+        "optional": true,
+        "details": {
+          "type": "date"
+        }
+      },
+      "itemData": {
+        "type": "unknown"
+      },
+      "quantity": {
+        "type": "number"
+      },
+      "buyer": {
+        "type": "unknown"
+      },
+      "seller": {
+        "type": "unknown"
+      }
+    }
+  },
+  "CartItemUpdatingBody": {
+    "type": "object",
+    "properties": {
+      "quantity": {
         "type": "number"
       }
     }
@@ -306,7 +517,7 @@
       }
     }
   },
-  "PurchaseOrderCreationBody": {
+  "MarketCreationBody": {
     "type": "object",
     "properties": {
       "orderItems": {
@@ -329,6 +540,232 @@
         }
       },
       "total": {
+        "type": "number"
+      }
+    }
+  },
+  "CategoryEntity": {
+    "type": "object",
+    "properties": {
+      "hash": {
+        "type": "string"
+      },
+      "createdBy": {
+        "type": "number"
+      },
+      "updatedBy": {
+        "type": "number"
+      },
+      "isArchived": {
+        "type": "boolean"
+      },
+      "dateCreate": {
+        "type": "date"
+      },
+      "dateUpdate": {
+        "type": "date"
+      },
+      "title": {
+        "type": "string"
+      },
+      "status": {
+        "type": "enum",
+        "values": [
+          "Inuse",
+          "Deprecated",
+          "Unused"
+        ]
+      },
+      "description": {
+        "type": "string"
+      },
+      "inventories": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "UserEntity": {
+    "type": "object",
+    "properties": {
+      "hash": {
+        "type": "string"
+      },
+      "createdBy": {
+        "type": "number"
+      },
+      "updatedBy": {
+        "type": "number"
+      },
+      "isArchived": {
+        "type": "boolean"
+      },
+      "dateCreate": {
+        "type": "date"
+      },
+      "dateUpdate": {
+        "type": "date"
+      },
+      "username": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "firstName": {
+        "type": "string"
+      },
+      "lastName": {
+        "type": "string"
+      },
+      "role": {
+        "type": "string"
+      },
+      "sentFriendRequests": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "receivedFriendRequests": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "userTwo": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "ordersAsBuyer": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "ordersAsSeller": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "cartForBuyer": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "cartForSeller": {
+        "type": "array",
+        "optional": true,
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "InventoryEntity": {
+    "type": "object",
+    "properties": {
+      "hash": {
+        "type": "string"
+      },
+      "createdBy": {
+        "type": "number"
+      },
+      "updatedBy": {
+        "type": "number"
+      },
+      "isArchived": {
+        "type": "boolean"
+      },
+      "dateCreate": {
+        "type": "date"
+      },
+      "dateUpdate": {
+        "type": "date"
+      },
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "price": {
+        "type": "unknown"
+      },
+      "quantity": {
+        "type": "unknown"
+      },
+      "status": {
+        "type": "enum",
+        "values": [
+          "Published",
+          "Unpublished",
+          "Removed",
+          "Expired",
+          "ZeroStock"
+        ]
+      },
+      "category": {
+        "type": "unknown"
+      },
+      "user": {
+        "type": "unknown"
+      },
+      "views": {
+        "type": "number"
+      }
+    }
+  },
+  "MarketFilterParams": {
+    "type": "object",
+    "properties": {
+      "limit": {
+        "type": "number"
+      },
+      "sortDirection": {
+        "type": "enum",
+        "values": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "sortBy": {
+        "type": "string"
+      },
+      "cursor": {
         "type": "number"
       }
     }

@@ -1,9 +1,7 @@
-
-
 import { currentUser } from "@/store";
 import { Burger, NavLink } from "@mantine/core";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 
 export interface SidebarItem {
   label: string;
@@ -24,6 +22,12 @@ export const Sidebar = ({ items, classNames }: SidebarProps) => {
     setState: state.setState,
     isSidebarOpened: state.sidebarOpen,
   }));
+
+  const currentPage = useMemo(
+    () => window.location.pathname,
+    [window.location]
+  );
+
   return (
     <div
       className={clsx(
@@ -38,14 +42,14 @@ export const Sidebar = ({ items, classNames }: SidebarProps) => {
         opened={isSidebarOpened}
         size="sm"
       />
-      <div>
+      <div className="overflow-hidden w-full">
         {items.map((item) => (
           <NavLink
             key={item.label}
             href={item.url}
             leftSection={isSidebarOpened ? item.expandIcon : item.collapseIcon}
             label={isSidebarOpened ? item.label : undefined}
-            // active={currentPage === item.url}
+            active={currentPage === item.url}
             className={clsx(!isSidebarOpened && "flex items-center")}
             classNames={{
               label: "font-semibold text-lg",

@@ -9,10 +9,6 @@ export enum DiscountApplyType {
   Specific = "Specific",
 }
 
-export enum DiscountType {
-  Percentage = "Percentage",
-  FixedAmount="Fixed Amount"
-}
 
 export enum FriendEvents {
   SendFriendRequest = "sendFriendRequest",

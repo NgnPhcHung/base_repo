@@ -44,11 +44,62 @@ export interface FriendRequestUpdatingBody {
   status: 'Pending' | 'Accepted' | 'Rejected';
   }
 
+export interface InventoryFilterParams {
+  limit: number;
+  sortDirection: 'ASC' | 'DESC';
+  sortBy: string;
+  cursor: number;
+  categoryId: number;
+  status: 'Published' | 'Unpublished' | 'Removed' | 'Expired' | 'ZeroStock';
+  }
+
 export interface CartCreationBody {
   seller: number;
   buyer: number;
   quantity: number;
   itemId: number;
+  }
+
+export interface Category {
+  id: number;
+  isArchived?: boolean;
+  dateCreate?: Date;
+  dateUpdate?: Date;
+  title: string;
+  status: 'Inuse' | 'Deprecated' | 'Unused';
+  description?: string;
+  parent?: any;
+  children?: any;
+  inventories?: any[];
+  }
+
+export interface Inventory {
+  id: number;
+  isArchived?: boolean;
+  dateCreate?: Date;
+  dateUpdate?: Date;
+  title: string;
+  description: string;
+  price: any;
+  quantity: any;
+  status: 'Published' | 'Unpublished' | 'Removed' | 'Expired' | 'ZeroStock';
+  category: any;
+  user: any;
+  }
+
+export interface Cart {
+  id: number;
+  isArchived?: boolean;
+  dateCreate?: Date;
+  dateUpdate?: Date;
+  itemData: any;
+  quantity: number;
+  buyer: any;
+  seller: any;
+  }
+
+export interface CartItemUpdatingBody {
+  quantity: number;
   }
 
 export interface Discount {
@@ -87,11 +138,69 @@ export interface Order {
   discountData?: any;
   }
 
-export interface PurchaseOrderCreationBody {
+export interface MarketCreationBody {
   orderItems: string[];
   buyer: number;
   seller: number;
   discount?: any;
   total: number;
+  }
+
+export interface CategoryEntity {
+  hash: string;
+  createdBy: number;
+  updatedBy: number;
+  isArchived: boolean;
+  dateCreate: Date;
+  dateUpdate: Date;
+  title: string;
+  status: 'Inuse' | 'Deprecated' | 'Unused';
+  description: string;
+  inventories: string[];
+  }
+
+export interface UserEntity {
+  hash: string;
+  createdBy: number;
+  updatedBy: number;
+  isArchived: boolean;
+  dateCreate: Date;
+  dateUpdate: Date;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  sentFriendRequests?: any[];
+  receivedFriendRequests?: any[];
+  userTwo?: any[];
+  ordersAsBuyer?: any[];
+  ordersAsSeller?: any[];
+  cartForBuyer?: any[];
+  cartForSeller?: any[];
+  }
+
+export interface InventoryEntity {
+  hash: string;
+  createdBy: number;
+  updatedBy: number;
+  isArchived: boolean;
+  dateCreate: Date;
+  dateUpdate: Date;
+  title: string;
+  description: string;
+  price: any;
+  quantity: any;
+  status: 'Published' | 'Unpublished' | 'Removed' | 'Expired' | 'ZeroStock';
+  category: any;
+  user: any;
+  views: number;
+  }
+
+export interface MarketFilterParams {
+  limit: number;
+  sortDirection: 'ASC' | 'DESC';
+  sortBy: string;
+  cursor: number;
   }
 

@@ -6,7 +6,7 @@ import Property from 'src/decorators/Property';
 import { Entity, Index, OneToMany, ManyToOne } from 'typeorm';
 import { CategoryEntity } from './category.entity';
 import { UserEntity } from './user.entity';
-import { OrderItemEntity } from './order-item.entity';
+import { MarketItemEntity } from './order-item.entity';
 import { CartEntity } from './cart.entity';
 
 @Entity()
@@ -42,9 +42,12 @@ export class InventoryEntity extends ThingEntity {
   @AutoMap()
   user!: UserEntity;
 
-  @OneToMany(() => OrderItemEntity, orderItem => orderItem.itemData)
-  orderItems: OrderItemEntity[]
+  @OneToMany(() => MarketItemEntity, orderItem => orderItem.itemData)
+  orderItems: MarketItemEntity[]
   
   @OneToMany(() => CartEntity, orderItem => orderItem.itemData)
   cartData: CartEntity[]
+
+  @Property({ default: 0 })
+  views?: number;
 }

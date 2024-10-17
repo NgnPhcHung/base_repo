@@ -1,18 +1,17 @@
 "use client";
 
+import { useAuth } from "@/hooks";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 import {
   createContext,
   PropsWithChildren,
-  useContext,
   useEffect,
-  useState,
+  useState
 } from "react";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import { SocketIOProvider } from "./SocketIOProvider";
-import { useAuth } from "@/hooks";
-import { useRouter } from "next/navigation";
 
 interface IAppContext {
   authToken: string | null;

@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Redis from 'ioredis';
 import { EntityManager, Repository } from 'typeorm';
 import { RedisService } from '../redis';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class InventoryService extends BaseOrmService<InventoryEntity> {
@@ -39,12 +40,44 @@ export class InventoryService extends BaseOrmService<InventoryEntity> {
     seller: UserEntity,
   ): Promise<Boolean> {
     const loadedInventory = await this.findOne({
-      where: { id: inventory.id, user: {
-        id: seller.id
-      } },
+      where: {
+        id: inventory.id,
+        user: {
+          id: seller.id,
+        },
+      },
       relations: ['user'],
     });
 
     return !!loadedInventory;
+  }
+
+  async increaseView(id: number) {
+    const redisKey = `product:${id}:views`;
+    await this.redisClient.incr(redisKey);
+  }
+
+  async saveViewsToDatabase(id: number): Promise<void> {
+    const redisKey = `product:${id}:views`;
+    const views = await this.redisClient.get(redisKey);
+
+    if (views) {
+      await this.repo.increment({ id: id }, 'views', parseInt(views, 10));
+      await this.redisClient.del(redisKey); // Xóa lượt xem trong Redis sau khi lưu vào DB
+    }
+  }
+
+  async saveAllViewsToDatabase(): Promise<void> {
+    const keys = await this.redisClient.keys('product:*:views');
+    for (const key of keys) {
+      const productId = parseInt(key.split(':')[1], 10);
+      await this.saveViewsToDatabase(productId);
+    }
+  }
+
+  @Cron('0 */5 * * * *') // 5mins
+  async handleCron() {
+    console.log('Saving views to database...');
+    await this.saveAllViewsToDatabase();
   }
 }

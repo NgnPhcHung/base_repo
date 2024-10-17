@@ -1,12 +1,12 @@
 import { AutoMap } from "@automapper/classes";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Discount } from "../dto/Discount";
-import { PurchaseOrderItemCreationBody } from "./PurchaseOrderItemCreationBody";
+import { MarketItemCreationBody } from "./MarketItemCreationBody";
 
-export class PurchaseOrderCreationBody {
+export class MarketCreationBody {
   @ApiProperty()
   @AutoMap()
-  orderItems!: PurchaseOrderItemCreationBody[];
+  orderItems!: MarketItemCreationBody[];
 
   @ApiProperty()
   @AutoMap()

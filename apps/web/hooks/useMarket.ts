@@ -1,9 +1,9 @@
-import { orderService } from "@/services/orderService";
+import { marketService } from "@/services/marketService";
 import { InventoryFilterParams } from "@packages/models";
 import { useQuery } from "@tanstack/react-query";
 
 export const useMarket = () => {
-  const marketApi = orderService();
+  const marketApi = marketService();
   return {
     listCategory: useQuery({
       queryKey: ["list-category"],

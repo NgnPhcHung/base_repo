@@ -1,15 +1,15 @@
 import { createMap, forMember, mapFrom, Mapper } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
-import { OrderEntity, OrderItemEntity } from '@entities';
+import { MarketEntity, MarketItemEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
 import {
   Order,
-  PurchaseOrderCreationBody,
-  PurchaseOrderItemCreationBody,
+  MarketCreationBody,
+  MarketItemCreationBody,
 } from '@packages/models';
 
 @Injectable()
-export class OrderMapper extends AutomapperProfile {
+export class MarketMapper extends AutomapperProfile {
   constructor(@InjectMapper() mapper: Mapper) {
     super(mapper);
   }
@@ -18,20 +18,20 @@ export class OrderMapper extends AutomapperProfile {
     return (mapper: Mapper) => {
       createMap(
         mapper,
-        PurchaseOrderCreationBody,
-        OrderEntity,
+        MarketCreationBody,
+        MarketEntity,
         forMember(
           (data) => data.orderItems,
           mapFrom((source) =>
             mapper.mapArray(
               source.orderItems,
-              PurchaseOrderItemCreationBody,
-              OrderItemEntity,
+              MarketItemCreationBody,
+              MarketItemEntity,
             ),
           ),
         ),
       );
-      createMap(mapper, OrderEntity, Order);
+      createMap(mapper, MarketEntity, Order);
     };
   }
 }

@@ -6,8 +6,7 @@
       "esnext"
     ],
     "allowJs": false,
-    "skipLibCheck": null,
-    "strict": true,
+    "skipLibCheck": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -15,7 +14,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
     "plugins": [
       {
         "name": "next"
@@ -25,10 +23,11 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "strictNullChecks": true
   },
   "include": [
-    "**/*.ts", 
+    "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
@@ -38,5 +37,6 @@
     "**/*.spec.ts",
     "build",
     ".next"
-  ]
+  ],
+  "extends": "@repo/typescript-config/react-library.json"
 }

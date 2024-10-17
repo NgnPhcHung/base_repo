@@ -3,11 +3,11 @@ import { OrderStatus } from '@packages/models';
 import Property from 'src/decorators/Property';
 import { Entity, ManyToOne, OneToMany } from 'typeorm';
 import { DiscountEntity } from './discount.entity';
-import { OrderItemEntity } from './order-item.entity';
+import { MarketItemEntity } from './order-item.entity';
 import { UserEntity } from './user.entity';
 
 @Entity()
-export class OrderEntity extends ThingEntity {
+export class MarketEntity extends ThingEntity {
   @Property()
   title!: string;
 
@@ -17,8 +17,8 @@ export class OrderEntity extends ThingEntity {
   @Property({ type: 'date' })
   orderDate!: Date;
 
-  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
-  orderItems!: OrderItemEntity[];
+  @OneToMany(() => MarketItemEntity, (orderItem) => orderItem.order)
+  orderItems!: MarketItemEntity[];
 
   @Property({ type: 'decimal', precision: 2 })
   total!: number;

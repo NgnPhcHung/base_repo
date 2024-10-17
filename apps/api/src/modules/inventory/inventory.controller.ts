@@ -13,9 +13,9 @@ import {
 @Controller('inventory')
 @Authorization()
 export class InventoryController {
-  constructor(private readonly inventoryService: InventoryService) {}
+  constructor(private readonly inventoryService: InventoryService) { }
 
-  @Read('/', { dto: PaginationResult<Inventory> })
+  @Read('/', { dto: PaginationResult<Inventory>, inputDto: InventoryFilterParams })
   async getListInventory(
     @CurrentUser() user: User,
     @Query() query: InventoryFilterParams,

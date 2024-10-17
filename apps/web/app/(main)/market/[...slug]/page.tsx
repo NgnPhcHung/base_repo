@@ -1,12 +1,10 @@
-"use client";
-
 import { ProductDetail } from "@/components";
 
 const ProductDetailPage = () => {
   return <ProductDetail />;
 };
 
-export default ProductDetail;
+export default ProductDetailPage;
 // const { mutate, isPending } = useMutation({
 //   mutationKey: ["login"],
 //   mutationFn: async (data: UserLoginBody) => {

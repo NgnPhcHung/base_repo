@@ -3,15 +3,15 @@ import Property from 'src/decorators/Property';
 import { Entity, ManyToOne } from 'typeorm';
 import { DiscountEntity } from './discount.entity';
 import { InventoryEntity } from './inventory.entity';
-import { OrderEntity } from './order.entity';
+import { MarketEntity } from './order.entity';
 
 @Entity()
-export class OrderItemEntity extends ThingEntity {
+export class MarketItemEntity extends ThingEntity {
   @Property()
   title!: string;
 
-  @ManyToOne(() => OrderEntity, (order) => order.orderItems)
-  order!: OrderEntity;
+  @ManyToOne(() => MarketEntity, (order) => order.orderItems)
+  order!: MarketEntity;
 
   @Property({ type: 'int' })
   quantity!: number;

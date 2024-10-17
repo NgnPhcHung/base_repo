@@ -7,7 +7,7 @@ import { FriendshipEntity } from './friendship.entity';
 import { UserLocationEntity } from './user-location.entity';
 import { UserRole } from '@packages/models';
 import { InventoryEntity } from './inventory.entity';
-import { OrderEntity } from './order.entity';
+import { MarketEntity } from './order.entity';
 import { CartEntity } from './cart.entity';
 @Entity()
 export class UserEntity extends ThingEntity {
@@ -58,13 +58,13 @@ export class UserEntity extends ThingEntity {
   @OneToMany(() => InventoryEntity, (inventory) => inventory.user)
   inventories: InventoryEntity[];
 
-  @OneToMany(() => OrderEntity, (order) => order.buyer)
+  @OneToMany(() => MarketEntity, (order) => order.buyer)
   @ApiPropertyOptional()
-  ordersAsBuyer: OrderEntity[];
+  ordersAsBuyer: MarketEntity[];
 
-  @OneToMany(() => OrderEntity, (order) => order.seller)
+  @OneToMany(() => MarketEntity, (order) => order.seller)
   @ApiPropertyOptional()
-  ordersAsSeller: OrderEntity[];
+  ordersAsSeller: MarketEntity[];
 
   
   @OneToMany(() => CartEntity, (order) => order.buyer)

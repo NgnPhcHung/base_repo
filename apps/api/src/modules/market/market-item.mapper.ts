@@ -1,19 +1,19 @@
 import { createMap, Mapper } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
-import { OrderItemEntity } from '@entities';
+import { MarketItemEntity } from '@entities';
 import { Injectable } from '@nestjs/common';
-import { OrderItem, PurchaseOrderItemCreationBody } from '@packages/models';
+import { MarketItem, MarketItemCreationBody } from '@packages/models';
 
 @Injectable()
-export class OrderItemMapper extends AutomapperProfile {
+export class MarketItemMapper extends AutomapperProfile {
   constructor(@InjectMapper() mapper: Mapper) {
     super(mapper);
   }
 
   override get profile() {
     return (mapper: Mapper) => {
-      createMap(mapper, PurchaseOrderItemCreationBody, OrderItemEntity);
-      createMap(mapper, OrderItemEntity, OrderItem);
+      createMap(mapper, MarketItemCreationBody, MarketItemEntity);
+      createMap(mapper, MarketItemEntity, MarketItem);
     };
   }
 }

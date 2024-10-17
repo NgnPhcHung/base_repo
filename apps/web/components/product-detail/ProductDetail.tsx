@@ -1,21 +1,20 @@
 "use client";
 
 import { Loading, toast } from "@/components";
-import { cartService, orderService } from "@/services";
+import { cartService } from "@/services";
 import { currentUser } from "@/store";
 import { ActionIcon, Button, NumberInput } from "@mantine/core";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { CartCreationBody, CartItemUpdatingBody } from "@packages/models";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useFetchItemDetails, useUpdateItem } from "./_hooks";
 
 export const ProductDetail = () => {
   const query = useParams();
-  const itemId = query.slug[0];
-  const orderApi = orderService();
   const cartApi = cartService();
 
   const { control, handleSubmit, watch, setValue, getValues, reset } =
@@ -26,20 +25,17 @@ export const ProductDetail = () => {
   const { user } = currentUser();
   const quantity = watch("quantity");
 
-  const { data: item, isLoading } = useQuery({
-    queryKey: ["market-item-detail", itemId],
-    queryFn: () => orderApi.getSelectedItem(Number(itemId)),
-  });
+  const { isItemLoading, itemData, itemId } = useFetchItemDetails();
 
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["add-to-cart"],
     mutationFn: async () => {
-      if (!item?.data || !user) return;
-      console.log(item.data);
+      if (!itemData || !user) return;
+
       const {
         user: { id: seller },
         id: itemId,
-      } = item.data;
+      } = itemData;
       const buyer = user.id;
 
       const payload: CartCreationBody = {
@@ -53,10 +49,7 @@ export const ProductDetail = () => {
     onError: (error) => toast.error(error.message),
   });
 
-  const { mutate: updateItemBody } = useMutation({
-    mutationKey: ["update-cart-item-qty"],
-    mutationFn: async (data: CartItemUpdatingBody) => {},
-  });
+  const { updateItemBody, updateItemViews } = useUpdateItem(itemId);
 
   const handleUpdateQty: SubmitHandler<CartItemUpdatingBody> = (data) => {
     updateItemBody(data);
@@ -73,14 +66,22 @@ export const ProductDetail = () => {
     handleUpdateQtyDebounce({ ...formData, quantity });
   };
 
-  if (isLoading) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      updateItemViews();
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [itemId]);
+
+  if (isItemLoading) {
     return <Loading />;
   }
 
   return (
     <div>
-      <h1>{item?.data.title}</h1>
-      <p>{item?.data.description}</p>
+      <h1>{itemData?.title}</h1>
+      <p>{itemData?.description}</p>
       <form
         className="space-y-4"
         onSubmit={handleSubmit(handleUpdateQtyDebounce)}
@@ -108,15 +109,3 @@ export const ProductDetail = () => {
     </div>
   );
 };
-
-// const { mutate, isPending } = useMutation({
-//   mutationKey: ["login"],
-//   mutationFn: async (data: UserLoginBody) => {
-//     const res: any = await authApi.login(data);
-
-//     if (res) {
-//       saveToken(res);
-//       router.push("/");
-//     }
-//   },
-// });

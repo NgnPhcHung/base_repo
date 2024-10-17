@@ -4,7 +4,7 @@ import { AutoMap } from "@automapper/classes";
 import { Discount } from "./Discount";
 import { Inventory } from "./Inventory";
 
-export class OrderItem extends Thing {
+export class MarketItem extends Thing {
   @ApiProperty()
   @AutoMap()
   title!: string;

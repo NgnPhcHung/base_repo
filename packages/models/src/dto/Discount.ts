@@ -3,8 +3,8 @@ import { Thing } from "./Thing";
 import { AutoMap } from "@automapper/classes";
 import { DiscountApplyType, DiscountType } from "../consts";
 import { User } from "./User";
-import { OrderItem } from "./OrderItem";
-import { Order } from "./Order";
+import { MarketItem } from "./MarketItem";
+import { Order } from "./Market";
 
 export class Discount extends Thing {
   @ApiProperty()
@@ -61,7 +61,7 @@ export class Discount extends Thing {
 
   @ApiProperty({})
   @AutoMap()
-  discountItems?: OrderItem[];
+  discountItems?: MarketItem[];
 
   @ApiProperty({})
   @AutoMap()

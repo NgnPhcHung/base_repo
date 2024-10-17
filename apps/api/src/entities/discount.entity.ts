@@ -2,8 +2,8 @@ import { ThingEntity } from '@domains/shared';
 import { DiscountApplyType, DiscountType } from '@packages/models';
 import Property from 'src/decorators/Property';
 import { Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import { OrderItemEntity } from './order-item.entity';
-import { OrderEntity } from './order.entity';
+import { MarketItemEntity } from './order-item.entity';
+import { MarketEntity } from './order.entity';
 import { UserEntity } from './user.entity';
 
 /**
@@ -64,11 +64,11 @@ export class DiscountEntity extends ThingEntity {
   })
   applyType: DiscountApplyType;
 
-  @OneToMany(() => OrderItemEntity, (discount) => discount.discountData, {
+  @OneToMany(() => MarketItemEntity, (discount) => discount.discountData, {
     onDelete: 'CASCADE',
   })
-  discountItems?: OrderItemEntity[];
+  discountItems?: MarketItemEntity[];
 
-  @OneToMany(() => OrderEntity, (order) => order.discountData)
-  discountOrders?: OrderEntity[];
+  @OneToMany(() => MarketEntity, (order) => order.discountData)
+  discountOrders?: MarketEntity[];
 }

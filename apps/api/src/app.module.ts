@@ -17,18 +17,20 @@ import {
   FriendModule,
   InventoryModule,
   LocationModule,
-  OrderModule,
+  MarketModule,
   RedisAppModule,
   UserModule,
 } from './modules';
 import { DefaultMapper } from './utils';
 import { AsyncContextMiddleware } from './common/async-context.middleware';
 import { CommonModule } from './modules/common/common.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     DatabaseModule,
     CommonModule,
+    ScheduleModule.forRoot(),
     AuthModule,
     UserModule,
     RedisAppModule,
@@ -37,7 +39,7 @@ import { CommonModule } from './modules/common/common.module';
     InventoryModule,
     DiscountModule,
     CartModule,
-    OrderModule,
+    MarketModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

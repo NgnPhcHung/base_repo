@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import * as fs from 'fs';
+import { LoggerInterceptor } from './interceptors';
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ async function bootstrap() {
   app.setGlobalPrefix('v1/api');
   app.use(cookieParser());
   app.enableCors({
-    origin: ['*', 'http://localhost:3000'],
+    origin: ['*', 'http://localhost:3000', 'http://localhost:3333'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     credentials: true,
@@ -32,6 +33,8 @@ async function bootstrap() {
     allowedHeaders:
       'Content-Type, Accept, Authorization, X-Requested-With, Application, refreshtoken', 
   });
+  app.useGlobalInterceptors(new LoggerInterceptor());
+
 
   const config = new DocumentBuilder()
     .setTitle(process.env.DB_NAME)

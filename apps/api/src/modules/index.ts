@@ -5,6 +5,6 @@ export * from "./friend";
 export * from "./inventory";
 export * from "./kafka";
 export * from "./location";
-export * from "./order";
+export * from "./market";
 export * from "./redis";
 export * from "./user";

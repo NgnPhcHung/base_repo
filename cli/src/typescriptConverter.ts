@@ -33,7 +33,7 @@ function generateInterface(interfaceName: string, schema: ZodSchema): string {
 }
 
 function mapType(schema: ZodSchema): string {
-  switch (schema.type) {
+  switch (schema?.type) {
     case "string":
     case "number":
     case "boolean":

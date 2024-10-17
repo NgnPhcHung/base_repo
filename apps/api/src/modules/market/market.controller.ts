@@ -1,19 +1,18 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { Authorization, Create, CurrentUser, Read, Roles } from '@decorators';
+import { Create, Read, Roles } from '@decorators';
 import {
   CategoryEntity,
   DiscountEntity,
   InventoryEntity,
-  OrderEntity,
-  OrderItemEntity,
+  MarketEntity,
+  MarketItemEntity,
 } from '@entities';
 import {
   Body,
   Controller,
   forwardRef,
   Inject,
-  Post,
   Query,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -26,30 +25,28 @@ import {
   InventoryFilterParams,
   InventoryStatus,
   ManyResult,
+  MarketCreationBody,
   Order,
   PaginationResult,
-  PurchaseOrderCreationBody,
   SingleResult,
-  User,
   UserRole,
 } from '@packages/models';
 import { ensurePromise } from '@packages/shared';
 import { DiscountService } from '../discount/discount.service';
 import { CategoryService } from '../inventory/category.service';
 import { InventoryService } from '../inventory/inventory.service';
-import { OrderService } from './order.service';
-import { OrderRedisService } from './order.redis.service';
-import { RoleGuard } from '@guards';
+import { MarketRedisService } from './market.redis.service';
+import { MarketService } from './market.service';
 
-@ApiTags('Order')
-@Controller('order')
-export class OrderController {
+@ApiTags('Market')
+@Controller('market')
+export class MarketController {
   @InjectMapper()
   private mapper: Mapper;
 
   constructor(
-    private orderService: OrderService,
-    private orderRedisService: OrderRedisService,
+    private marketService: MarketService,
+    private marketRedisService: MarketRedisService,
 
     @Inject(forwardRef(() => CategoryService))
     private categoryService: CategoryService,
@@ -98,23 +95,6 @@ export class OrderController {
     );
   }
 
-  @Read('/item', {})
-  async getItemDetail(@Query('itemId') itemId: number) {
-    const loadedItems = await ensurePromise(
-      this.inventoryService.findOne({
-        where: {
-          id: itemId,
-        },
-        relations: ['user'],
-      }),
-      'Item by category not found',
-    );
-
-    return new SingleResult(
-      this.mapper.map(loadedItems, InventoryEntity, Inventory),
-    );
-  }
-
   /**
    * only accept request from user( user mean buyer role) has role is user,
    * the flow is buyer send checkout shopping cart request PurchaseOrderCreationBody which has discount, then check is discount valid (start or end yet, is active or not, does it still valid for current buyer or not - use times)
@@ -125,13 +105,13 @@ export class OrderController {
    */
   @Create({
     endpoint: '/checkout',
-    inputDto: PurchaseOrderCreationBody,
+    inputDto: MarketCreationBody,
     dto: Order,
   })
   @Roles(UserRole.User)
-  async makeOrder(@Body() payload: PurchaseOrderCreationBody) {
+  async makeOrder(@Body() payload: MarketCreationBody) {
     try {
-      let order: OrderEntity;
+      let order: MarketEntity;
 
       payload.orderItems.forEach(async (item) => {
         const loadedInventory = await ensurePromise(
@@ -141,7 +121,7 @@ export class OrderController {
           'Given item is invalid',
         );
 
-        await this.orderRedisService.processOrder(loadedInventory.id, item);
+        await this.marketRedisService.processOrder(loadedInventory.id, item);
 
         const discount = this.mapper.map(
           payload.discount,
@@ -174,7 +154,7 @@ export class OrderController {
           payload.total,
         );
 
-        const orderItem: OrderItemEntity = new OrderItemEntity();
+        const orderItem: MarketItemEntity = new MarketItemEntity();
         orderItem.itemData = loadedInventory;
         orderItem.amount = amount;
         orderItem.quantity = item.quantity;
@@ -182,7 +162,7 @@ export class OrderController {
         order.orderItems.push(orderItem);
       });
 
-      await this.orderService.save(order);
+      await this.marketService.save(order);
 
       return new SingleResult(order);
     } catch (error) {}

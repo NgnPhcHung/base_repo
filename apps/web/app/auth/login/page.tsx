@@ -43,6 +43,7 @@ export default function LoginPage() {
           {...register("username")}
           label="Username"
           error={errors.username?.message}
+          autoFocus
         />
 
         <TextInput
